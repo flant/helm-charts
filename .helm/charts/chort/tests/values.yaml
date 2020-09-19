@@ -1,0 +1,113 @@
+global:
+  _includes:
+    include1:
+      map1:
+        _include: ["nestedInclude1"]
+        val2: include1key2
+        val3: include1key3
+        val4: include1key4
+        val5:
+          test: include1TestKey5
+        val6:
+          test: null
+        val7: ["include1Key7"]
+        val8: true
+        val9: false
+        val10:
+          test2: include1Test2Key10
+          test3: include1Test3Key10
+        val11: include1Key11
+
+    nestedInclude1:
+      val10:
+        test: nestedInclude1Test2Key10
+        test2: nestedInclude1Test2Key10
+
+chort:
+  _tests: true
+
+  include:
+    _include: ["include1"]
+    map1:
+      val1: key1
+      val3: key3
+      val4:
+        _default: key4
+      val5:
+        _default: key5
+      val6:
+        _default: key6
+      val7: key7
+      val8: false
+      val9: true
+      val10:
+        _default: key10
+      val11: null
+
+  val:
+    string: "string"
+    emptyString: ""
+    booleanFalse: false
+    booleanTrue: true
+    number: 10
+    map: |
+      val1: key1
+      val2: key2
+    emptyMap: {}
+    list: |
+      - key1
+      - key2
+    emptyList: []
+    nullType: null
+    nilType: nil
+
+    multiEnv:
+      _default: val1key1
+      test: val1key2
+    onlyDefaultEnv:
+      _default: val2key1
+    onlyCustomEnv:
+      test: val3key1
+    multiEnvBooleanFalse:
+      _default: true
+      test: false
+
+    template: "{{ $.Values.global.env }}"
+
+    prefix: "prefix "
+    suffix: " suffix"
+
+  envs:
+    env:
+      STRING: "string"
+      EMPTY_STRING: ""
+      BOOLEAN_FALSE: false
+      BOOLEAN_TRUE: true
+      NUMBER: 10
+      NULL_TYPE: null
+      NIL_TYPE: nil
+
+  resources:
+    "none": null
+    empty:
+      requests:
+        mcpu: null
+    onlyRequests:
+      requests:
+        mcpu: 100
+    all:
+      requests:
+        mcpu: 100
+        memoryMb: 200
+      limits:
+        mcpu: 100
+        memoryMb: 200
+    multiEnv:
+      requests:
+        mcpu:
+          _default: 100
+          test: 200
+
+  isTrueOrFalse:
+    "true": true
+    "false": false

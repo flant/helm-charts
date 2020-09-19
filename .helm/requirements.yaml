@@ -1,0 +1,4 @@
+dependencies:
+- name: chort
+  version: 1.0
+  condition: chort._enabled

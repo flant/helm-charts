@@ -1,0 +1,108 @@
+kind: TestEnvs
+testEnvs:
+  env:
+  - name: BOOLEAN_FALSE
+    value: 'false'
+  - name: BOOLEAN_TRUE
+    value: 'true'
+  - name: NIL_TYPE
+    value: nil
+  - name: NUMBER
+    value: '10'
+  - name: STRING
+    value: string
+---
+kind: TestInclude
+valuesDump:
+  map1:
+    val1: key1
+    val2: include1key2
+    val3: key3
+    val4:
+      _default: key4
+    val5:
+      _default: key5
+      test: include1TestKey5
+    val6:
+      _default: key6
+      test: null
+    val7: key7
+    val8: false
+    val9: true
+    val10:
+      _default: key10
+      test: nestedInclude1Test2Key10
+      test2: include1Test2Key10
+      test3: include1Test3Key10
+    val11: null
+---
+kind: TestIsTrue
+testIsTrue:
+  'yes': 'yes'
+  'no': 'no'
+testIsFalse:
+  'yes': 'yes'
+  'no': 'no'
+---
+kind: TestResources
+testResources:
+  none: null
+  empty:
+    requests: null
+  onlyRequests:
+    requests:
+      cpu: 100m
+  all:
+    limits:
+      cpu: 100m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 200Mi
+  multiEnv:
+    requests:
+      cpu: 200m
+---
+kind: TestVal
+testValTypes:
+  string: string
+  emptyString: null
+  booleanFalse: false
+  booleanTrue: true
+  number: 10
+  nullType: null
+  nilType: nil
+  map:
+    val1: key1
+    val2: key2
+  emptyMap: null
+  list:
+  - key1
+  - key2
+  emptyList: null
+testValQTypes:
+  string: string
+  emptyString: null
+  booleanFalse: 'false'
+  booleanTrue: 'true'
+  number: '10'
+  nullType: null
+  nilType: nil
+testValSQTypes:
+  string: string
+  emptyString: null
+  booleanFalse: 'false'
+  booleanTrue: 'true'
+  number: '10'
+  nullType: null
+  nilType: nil
+testValEnvs:
+  multiEnv: val1key2
+  onlyDefaultEnv: val2key1
+  onlyCustomEnv: val3key1
+  multiEnvBooleanFalse: false
+testValTemplating:
+  template: test
+testValPrefixSuffix:
+  prefix: prefix body
+  suffix: body suffix

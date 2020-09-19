@@ -1,0 +1,86 @@
+{{- if $.Values._tests }}
+{{- include "c.expandIncludes" (list $ $.Values) }}
+{{- range list "" }}
+
+---
+kind: TestEnvs
+testEnvs:
+  env: {{ include "c.envs" (list $ . $.Values.envs.env) | nindent 4 }}
+
+---
+kind: TestInclude
+valuesDump: {{ $.Values.include | toYaml | nindent 4 }}
+
+---
+kind: TestIsTrue
+testIsTrue:
+  "yes": >-
+    {{ if include "c.isTrue" (list $ . $.Values.isTrueOrFalse.true) -}}
+      yes
+    {{- end }}
+  "no": >-
+    {{ if not (include "c.isTrue" (list $ . $.Values.isTrueOrFalse.false)) -}}
+      no
+    {{- end }}
+testIsFalse:
+  "yes": >-
+    {{ if include "c.isFalse" (list $ . $.Values.isTrueOrFalse.false) -}}
+      yes
+    {{- end }}
+  "no": >-
+    {{ if not (include "c.isFalse" (list $ . $.Values.isTrueOrFalse.true)) -}}
+      no
+    {{- end }}
+
+---
+kind: TestResources
+testResources:
+  none: {{ include "c.resources" (list $ . $.Values.resources.none) | nindent 4 }}
+  empty: {{ include "c.resources" (list $ . $.Values.resources.empty) | nindent 4 }}
+  onlyRequests: {{ include "c.resources" (list $ . $.Values.resources.onlyRequests) | nindent 4 }}
+  all: {{ include "c.resources" (list $ . $.Values.resources.all) | nindent 4 }}
+  multiEnv: {{ include "c.resources" (list $ . $.Values.resources.multiEnv) | nindent 4 }}
+
+---
+kind: TestVal
+testValTypes:
+  string: {{ include "c.val" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "c.val" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "c.val" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "c.val" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "c.val" (list $ . $.Values.val.number) }}
+  nullType: {{ include "c.val" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "c.val" (list $ . $.Values.val.nilType) }}
+  map: {{ include "c.val" (list $ . $.Values.val.map) | nindent 4 }}
+  emptyMap: {{ include "c.val" (list $ . $.Values.val.emptyMap) | nindent 4 }}
+  list: {{ include "c.val" (list $ . $.Values.val.list) | nindent 4 }}
+  emptyList: {{ include "c.val" (list $ . $.Values.val.emptyList) | nindent 4 }}
+testValQTypes:
+  string: {{ include "c.valQ" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "c.valQ" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "c.valQ" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "c.valQ" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "c.valQ" (list $ . $.Values.val.number) }}
+  nullType: {{ include "c.valQ" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "c.valQ" (list $ . $.Values.val.nilType) }}
+testValSQTypes:
+  string: {{ include "c.valSQ" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "c.valSQ" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "c.valSQ" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "c.valSQ" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "c.valSQ" (list $ . $.Values.val.number) }}
+  nullType: {{ include "c.valSQ" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "c.valSQ" (list $ . $.Values.val.nilType) }}
+testValEnvs:
+  multiEnv: {{ include "c.val" (list $ . $.Values.val.multiEnv) }}
+  onlyDefaultEnv: {{ include "c.val" (list $ . $.Values.val.onlyDefaultEnv) }}
+  onlyCustomEnv: {{ include "c.val" (list $ . $.Values.val.onlyCustomEnv) }}
+  multiEnvBooleanFalse: {{ include "c.val" (list $ . $.Values.val.multiEnvBooleanFalse) }}
+testValTemplating:
+  template: {{ include "c.val" (list $ . $.Values.val.template) }}
+testValPrefixSuffix:
+  prefix: {{ include "c.val" (list $ . "body" (dict "prefix" $.Values.val.prefix)) }}
+  suffix: {{ include "c.val" (list $ . "body" (dict "suffix" $.Values.val.suffix)) }}
+
+{{- end }}
+{{- end }}

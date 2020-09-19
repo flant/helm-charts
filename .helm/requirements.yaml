@@ -1,0 +1,4 @@
+dependencies:
+- name: flant-lib
+  version: 1.0
+  condition: flant-lib._enabled

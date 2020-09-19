@@ -1,0 +1,39 @@
+name: main
+
+env:
+  WERF_VERSION: "1.1 ea"
+
+on:
+  push:
+  pull_request:
+    types: "[opened, synchronize, reopened]"
+
+jobs:
+  tests:
+    runs-on: "ubuntu-18.04"
+    steps:
+      - uses: "actions/checkout@v2"
+      - name: Install dependencies
+        uses: "./.github/actions/install-dependencies"
+      - name: Setup multiwerf
+        uses: "./.github/actions/setup-multiwerf"
+      - name: Werf lint charts
+        run: 'doit werf-lint -v "$WERF_VERSION"'
+      - name: Werf render charts
+        run: 'doit werf-render -v "$WERF_VERSION"'
+  publish-charts:
+    runs-on: "ubuntu-18.04"
+    if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'flant/helm-charts'"
+    needs: "tests"
+    steps:
+      - uses: "actions/checkout@v2"
+      - name: Install dependencies
+        uses: "./.github/actions/install-dependencies"
+      - name: Package werf charts
+        run: 'doit werf-package-charts'
+      - name: Publish packaged werf charts
+        run: |
+          doit werf-publish-chart-packages \
+            --chartmuseum-url "https://charts.flant.com/" \
+            --chartmuseum-basic-auth-user "FIXME" \
+            --chartmuseum-basic-auth-pass "FIXME"

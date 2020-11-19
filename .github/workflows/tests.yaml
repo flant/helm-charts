@@ -13,18 +13,27 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Install system dependencies
+        run: |
           set -e
           sudo apt-get -qq update
           sudo apt-get -qq install make python
           sudo pip install yq
-          cd /usr/local/bin/
-          sudo curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | sudo bash
-      - run: |
+      - name: Install multiwerf
+        run: |
+          set -e
+          export PATH="$PATH:$HOME/bin"
+          echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+          mkdir -p ~/bin
+          cd ~/bin
+          curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+      - name: Lint
+        run: |
           set -e
           source <(multiwerf use $WERF_VERSION)
           make lint
-      - run: |
+      - name: Tests
+        run: |
           set -e
           source <(multiwerf use $WERF_VERSION)
           make test

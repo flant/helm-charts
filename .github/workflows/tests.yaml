@@ -10,7 +10,7 @@ env:
 
 defaults:
   run:
-    shell: "bash -l -euo pipefail"
+    shell: "bash -l -euo pipefail {0}"
     working-directory: "scripts"
 
 jobs:

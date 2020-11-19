@@ -30,7 +30,7 @@ jobs:
           echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bashrc
       - name: Lint charts
         run: |
-          ls -lh ~/bin/
+          source ~/.bashrc
           while read chart; do
             CHART="$chart" make lint
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d)

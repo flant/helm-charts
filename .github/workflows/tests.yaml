@@ -15,11 +15,11 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           set -e
-          apt-get -qq update
-          apt-get -qq install make python
-          pip install yq
+          sudo apt-get -qq update
+          sudo apt-get -qq install make python
+          sudo pip install yq
           cd /usr/local/bin/
-          curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+          sudo curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | sudo bash
       - run: |
           set -e
           source <(multiwerf use $WERF_VERSION)

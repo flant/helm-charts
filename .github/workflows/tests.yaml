@@ -28,7 +28,7 @@ jobs:
       - name: Lint
         run: |
           # FIXME:
-          echo ~/.bashrc
+          cat ~/.bashrc
           # FIXME:
           ls ~/bin
           # FIXME:

@@ -10,7 +10,7 @@ env:
 
 defaults:
   run:
-    shell: "/bin/bash -l -euo pipefail {0}"
+    shell: "/bin/bash --rcfile /home/runner/.bashrc -l -euo pipefail {0}"
 
 jobs:
   tests:
@@ -30,11 +30,6 @@ jobs:
           echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bashrc
       - name: Lint charts
         run: |
-          set +x
-          pwd
-          cd ~
-          pwd
-          . ~/.bashrc
           while read chart; do
             CHART="$chart" make lint
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d)

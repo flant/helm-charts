@@ -10,7 +10,7 @@ env:
 
 defaults:
   run:
-    shell: "bash -leo pipefail {0}"
+    shell: "/bin/bash -leo pipefail {0}"
     working-directory: "scripts"
 
 jobs:
@@ -20,8 +20,6 @@ jobs:
       - uses: "actions/checkout@v2"
       - name: Install system dependencies
         run: |
-          env
-          which bash
           sudo apt-get -qq update
           sudo apt-get -qq install make python
           sudo pip install yq

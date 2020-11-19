@@ -1,0 +1,16 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+
+jobs:
+  tests:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: apt-get -qq update
+      - run: apt-get -qq install make
+      - run: make lint
+      - run: make test

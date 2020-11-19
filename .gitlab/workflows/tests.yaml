@@ -5,12 +5,26 @@ on:
   pull_request:
     types: [assigned, opened, synchronize, reopened]
 
+env:
+  WERF_VERSION: 1.1 ea
+
 jobs:
   tests:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: apt-get -qq update
-      - run: apt-get -qq install make
-      - run: make lint
-      - run: make test
+      - run: |
+          set -e
+          apt-get -qq update
+          apt-get -qq install make python
+          pip install yq
+          cd /usr/local/bin/
+          curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+      - run: |
+          set -e
+          source <(multiwerf use $WERF_VERSION)
+          make lint
+      - run: |
+          set -e
+          source <(multiwerf use $WERF_VERSION)
+          make test

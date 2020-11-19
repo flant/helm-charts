@@ -18,8 +18,8 @@ lint: check-required-envs
 	$(WERF_HELM_BASE_COMMAND) lint
 
 test: check-required-envs lint
-	dyff between -s <(cat .helm/charts/$(CHART)/tests/expected-render.yaml) <($(WERF_HELM_RENDER_COMMAND))
-	echo "Tests passed successfully."
+	diff -u --color=always <(cat .helm/charts/$(CHART)/tests/expected-render.yaml) <($(WERF_HELM_RENDER_COMMAND))
+	tput setaf 2; echo "Tests passed successfully."; tput sgr 0
 
 test-generate-expected-output: check-required-envs
 	$(WERF_HELM_RENDER_COMMAND) > .helm/charts/$(CHART)/tests/expected-render.yaml

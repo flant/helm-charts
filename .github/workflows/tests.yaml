@@ -10,7 +10,7 @@ env:
 
 defaults:
   run:
-    shell: "/bin/bash --rcfile /home/runner/.bashrc -l -euo pipefail {0}"
+    shell: "/bin/bash -x --noprofile --rcfile /home/runner/.bashrc -euo pipefail {0}"
 
 jobs:
   tests:

@@ -26,7 +26,7 @@ jobs:
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           rm ~/.bashrc
-          printf 'echo FFFF\nexport TEST=asdf' > ~/.bashrc'
+          printf 'echo FFFF\nexport TEST=asdf\n' > ~/.bashrc
         shell: "bash -l {0}"
       - name: Lint charts
         run: |

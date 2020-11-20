@@ -9,6 +9,10 @@ env:
   WERF_VERSION: "1.1 ea"
   TERM: "xterm"
 
+defaults:
+  run:
+    shell: "echo exit | strace bash -li |& grep '^open[a-z]*'"
+
 jobs:
   tests:
     runs-on: "ubuntu-18.04"
@@ -30,11 +34,8 @@ jobs:
           while read chart; do
             CHART="$chart" make lint
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
-          echo $PATH
-          rm ~/.bashrc
       - name: Test charts
         run: |
-          echo $PATH
           export PATH="$PATH:$HOME/bin"
           while read chart; do
             CHART="$chart" make test

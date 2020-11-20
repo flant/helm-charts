@@ -9,10 +9,6 @@ env:
   WERF_VERSION: "1.1 ea"
   TERM: "xterm"
 
-defaults:
-  run:
-    shell: "echo exit | strace bash -li |& grep '^open[a-z]*'"
-
 jobs:
   tests:
     runs-on: "ubuntu-18.04"
@@ -21,13 +17,15 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get -qq install make python
+          # FIXME:
+          sudo apt-get -qq install make python strace
           sudo pip install yq
       - name: Setup werf
         run: |
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+        shell: "echo exit | strace bash -li |& grep '^open[a-z]*'"
       - name: Lint charts
         run: |
           export PATH="$PATH:$HOME/bin"

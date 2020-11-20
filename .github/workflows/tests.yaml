@@ -25,10 +25,10 @@ jobs:
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-        shell: "echo exit | strace bash -li |& grep '^open[a-z]*' 2>&1 1>~/out; echo {0}"
+        shell: "echo exit | strace bash -li |& grep '^open[a-z]*' 2>&1 1>/home/runner/out; echo {0}"
       - name: Lint charts
         run: |
-          cat ~/out
+          cat /home/runner/out
           env
           export PATH="$PATH:$HOME/bin"
           while read chart; do

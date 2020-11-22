@@ -11,7 +11,7 @@ env:
 
 defaults:
   run:
-    shell: "/bin/bash -l -x -eo pipefail {0}"
+    shell: "/bin/bash -eo pipefail {0}"
 
 jobs:
   tests:
@@ -28,7 +28,8 @@ jobs:
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-          echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bash_profile
+          sed -i '1 i\export PATH="$PATH:$HOME/bin"' ~/.bashrc
+          sed -i '1 i\export PATH="$PATH:$HOME/bin"' /etc/bashrc.bashrc
       - name: Lint charts
         run: |
           while read chart; do

@@ -1,31 +1,45 @@
-ENV ?= "test"
-GLOBAL_CI_URL ?= "example.org"
-SHELL = /bin/bash
-WERF_HELM_BASE_COMMAND = source <(multiwerf use 1.1 ea) && werf helm --values=.helm/charts/$(CHART)/tests/values.yaml --env $(ENV) --set 'global.ci_url=$(GLOBAL_CI_URL),$(CHART)._enabled=true'
-WERF_HELM_RENDER_COMMAND = $(WERF_HELM_BASE_COMMAND) render | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]'
+SHELL ?= /bin/bash
+TERM ?= xterm
 
-.PHONY: check-required-envs render test test-generate-expected-output
+WERF_VERSION ?= 1.1 ea
+WERF_ENV ?= test
+WERF_SET_90 ?= global.ci_url=example.org
+WERF_SET_91 ?= $(CHART_NAME)._enabled=true
 
-check-required-envs:
-ifndef CHART
-	$(error CHART env var is required but undefined)
-endif
+LOAD_WERF = source <(multiwerf use $(WERF_VERSION))
+WERF_RENDER_COMMAND = werf helm render | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]'
+
+.EXPORT_ALL_VARIABLES:
+.PHONY: check-required-envs render lint run-render-tests render-expected-output-for-render-tests save-expected-output-for-render-tests
 
 render: check-required-envs
-	$(WERF_HELM_RENDER_COMMAND)
+	$(LOAD_WERF)
+	$(WERF_RENDER_COMMAND)
 
 lint: check-required-envs
-	$(WERF_HELM_BASE_COMMAND) lint
+	$(LOAD_WERF)
+	werf helm lint
 
-test: check-required-envs lint
-	diff -u --color=always <(cat .helm/charts/$(CHART)/tests/expected-render.yaml) <($(WERF_HELM_RENDER_COMMAND))
+run-render-tests: check-required-envs
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
+	$(LOAD_WERF)
+	werf helm lint
+	diff -u --color=always <(cat .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml) <($(WERF_RENDER_COMMAND))
 	tput setaf 2; echo "Tests passed successfully."; tput sgr 0
 
-test-generate-expected-output: check-required-envs
-	$(WERF_HELM_RENDER_COMMAND) > .helm/charts/$(CHART)/tests/expected-render.yaml
+render-expected-output-for-render-tests: check-required-envs
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
+	$(LOAD_WERF)
+	werf helm lint
+	$(WERF_RENDER_COMMAND) > .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml
 
-helm: check-required-envs
-ifndef COMMAND
-	$(error COMMAND env var is required but undefined)
+save-expected-output-for-render-tests: check-required-envs
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
+	$(LOAD_WERF)
+	werf helm lint
+	$(WERF_RENDER_COMMAND) > .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml
+
+check-required-envs:
+ifndef CHART_NAME
+	$(error CHART_NAME env var is required but undefined)
 endif
-	$(WERF_HELM_BASE_COMMAND) $(COMMAND)

@@ -1,5 +1,5 @@
-SHELL ?= /bin/bash
 TERM ?= xterm
+SHELL = /bin/bash
 
 WERF_VERSION ?= 1.1 ea
 WERF_ENV ?= test
@@ -13,30 +13,30 @@ WERF_RENDER_COMMAND = werf helm render | tail -n +6 | grep -vE '(^\#)|(werf.io/v
 .PHONY: check-required-envs render lint run-render-tests render-expected-output-for-render-tests save-expected-output-for-render-tests
 
 render: check-required-envs
-	$(LOAD_WERF)
+	$(LOAD_WERF) && \
 	$(WERF_RENDER_COMMAND)
 
 lint: check-required-envs
-	$(LOAD_WERF)
+	$(LOAD_WERF) && \
 	werf helm lint
 
 run-render-tests: check-required-envs
-	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
-	$(LOAD_WERF)
-	werf helm lint
-	diff -u --color=always <(cat .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml) <($(WERF_RENDER_COMMAND))
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml" && \
+	$(LOAD_WERF) && \
+	werf helm lint && \
+	diff -u --color=always <(cat .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml) <($(WERF_RENDER_COMMAND)) && \
 	tput setaf 2; echo "Tests passed successfully."; tput sgr 0
 
 render-expected-output-for-render-tests: check-required-envs
-	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
-	$(LOAD_WERF)
-	werf helm lint
-	$(WERF_RENDER_COMMAND) > .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml" && \
+	$(LOAD_WERF) && \
+	werf helm lint && \
+	$(WERF_RENDER_COMMAND)
 
 save-expected-output-for-render-tests: check-required-envs
-	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml"
-	$(LOAD_WERF)
-	werf helm lint
+	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml" && \
+	$(LOAD_WERF) && \
+	werf helm lint && \
 	$(WERF_RENDER_COMMAND) > .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml
 
 check-required-envs:

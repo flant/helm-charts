@@ -34,7 +34,7 @@ jobs:
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
       - name: Run render tests for charts
         run: |
-          CHART_NAME=${{ matrix.chart }} make run-render-tests
-        strategy:
-          matrix:
-            chart: ["chort"]
+          charts_with_render_tests=("chort")
+          for chart in charts_with_render_tests; do
+            CHART_NAME="$chart" make run-render-tests
+          done

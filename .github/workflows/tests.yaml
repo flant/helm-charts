@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    shell: "/bin/bash -eo pipefail {0}"
+    shell: "/bin/bash -l -eo pipefail {0}"
 
 jobs:
   tests:
@@ -24,9 +24,7 @@ jobs:
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-          # FIXME:
-          sed -i '1 i\export PATH="$PATH:$HOME/bin"' ~/.bashrc
-          sudo sed -i '1 i\export PATH="$PATH:$HOME/bin"' /etc/bash.bashrc
+          echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bash_profile
       - name: Lint charts
         run: |
           while read chart; do
@@ -34,7 +32,6 @@ jobs:
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
       - name: Run render tests for charts
         run: |
-          charts_with_render_tests=("chort")
           for chart in charts_with_render_tests; do
             CHART_NAME="$chart" make run-render-tests
           done

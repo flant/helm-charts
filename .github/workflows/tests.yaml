@@ -17,30 +17,36 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get -qq update
-          # FIXME:
-          sudo apt-get -qq install make python strace
+          sudo apt-get -qq install make python
           sudo pip install yq
       - name: Setup werf
         run: |
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-          rm ~/.bashrc
-          printf 'echo FFFF\nexport TEST=asdf\n' > ~/.bashrc
+          which bash
+          id
+          echo 'touch /home/runner/test1' >> /home/runneradmin/.bash_profile
+          echo 'touch /home/runner/test2' >> /home/runneradmin/.bashrc
+          echo 'touch /home/runner/test3' >> /home/runneradmin/.profile
+          echo 'touch /home/runner/test4' >> /home/runner/.bash_profile
+          echo 'touch /home/runner/test5' >> /home/runner/.bashrc
+          echo 'touch /home/runner/test6' >> /home/runner/.profile
+          echo 'touch /home/runner/test7' >> /etc/bash.bashrc
+          echo 'touch /home/runner/test8' >> /etc/skel/.bashrc
+          echo 'touch /home/runner/test9' >> /etc/environment
+          echo 'touch /home/runner/test10' >> /etc/profile.d/apps-bin-path.sh
         shell: "bash -l {0}"
       - name: Lint charts
         run: |
-          cat ~/.bashrc
-          df -h
-          find /
           export PATH="$PATH:$HOME/bin"
           while read chart; do
             CHART="$chart" make lint
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
         shell: "bash -l {0}"
-      - name: Test charts
-        run: |
-          export PATH="$PATH:$HOME/bin"
-          while read chart; do
-            CHART="$chart" make test
-          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
+      # - name: Test charts
+      #   run: |
+      #     export PATH="$PATH:$HOME/bin"
+      #     while read chart; do
+      #       CHART="$chart" make test
+      #     done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)

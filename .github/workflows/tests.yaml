@@ -35,11 +35,12 @@ jobs:
           echo 'touch /home/runner/test6' | sudo tee -a /home/runner/.profile
           echo 'touch /home/runner/test7' | sudo tee -a /etc/bash.bashrc
           echo 'touch /home/runner/test8' | sudo tee -a /etc/skel/.bashrc
-          echo 'touch /home/runner/test9' | sudo tee -a /etc/environment
+          echo 'TEST=asdf' | sudo tee -a /etc/environment
           echo 'touch /home/runner/test10' | sudo tee -a /etc/profile.d/apps-bin-path.sh
         shell: "bash {0}"
       - name: Lint charts
         run: |
+          echo $TEST
           ls /home/runner/
           export PATH="$PATH:$HOME/bin"
           while read chart; do

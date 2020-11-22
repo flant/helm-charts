@@ -27,16 +27,16 @@ jobs:
           which bash
           id
           cat /home/runner/.bashrc
-          echo 'touch /home/runner/test1' | sudo tee -a /home/runneradmin/.bash_profile
-          echo 'touch /home/runner/test2' | sudo tee -a /home/runneradmin/.bashrc
-          echo 'touch /home/runner/test3' | sudo tee -a /home/runneradmin/.profile
-          echo 'touch /home/runner/test4' | sudo tee -a /home/runner/.bash_profile
-          echo 'touch /home/runner/test5' | sudo tee -a /home/runner/.bashrc
-          echo 'touch /home/runner/test6' | sudo tee -a /home/runner/.profile
-          echo 'touch /home/runner/test7' | sudo tee -a /etc/bash.bashrc
-          echo 'touch /home/runner/test8' | sudo tee -a /etc/skel/.bashrc
-          echo 'TEST=asdf' | sudo tee -a /etc/environment
-          echo 'touch /home/runner/test10' | sudo tee -a /etc/profile.d/apps-bin-path.sh
+          echo 'touch /home/runner/test1' | sudo tee  /home/runneradmin/.bash_profile
+          echo 'touch /home/runner/test2' | sudo tee  /home/runneradmin/.bashrc
+          echo 'touch /home/runner/test3' | sudo tee  /home/runneradmin/.profile
+          echo 'touch /home/runner/test4' | sudo tee  /home/runner/.bash_profile
+          echo 'touch /home/runner/test5' | sudo tee  /home/runner/.bashrc
+          echo 'touch /home/runner/test6' | sudo tee  /home/runner/.profile
+          echo 'touch /home/runner/test7' | sudo tee  /etc/bash.bashrc
+          echo 'touch /home/runner/test8' | sudo tee  /etc/skel/.bashrc
+          echo 'TEST=asdf' | sudo tee  /etc/environment
+          echo 'touch /home/runner/test10' | sudo tee  /etc/profile.d/apps-bin-path.sh
         shell: "bash {0}"
       - name: Lint charts
         run: |

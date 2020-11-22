@@ -9,6 +9,10 @@ env:
   WERF_VERSION: "1.1 ea"
   TERM: "xterm"
 
+defaults:
+  run:
+    shell: "/bin/bash -l -x -euo pipefail {0}"
+
 jobs:
   tests:
     runs-on: "ubuntu-18.04"
@@ -24,32 +28,14 @@ jobs:
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-          which bash
-          id
-          cat /home/runner/.bashrc
-          echo 'touch /home/runner/test1' | sudo tee -a /home/runneradmin/.bash_profile
-          echo 'touch /home/runner/test2' | sudo tee -a /home/runneradmin/.bashrc
-          echo 'touch /home/runner/test3' | sudo tee -a /home/runneradmin/.profile
-          echo 'touch /home/runner/test4' | sudo tee -a /home/runner/.bash_profile
-          echo 'touch /home/runner/test5' | sudo tee -a /home/runner/.bashrc
-          echo 'touch /home/runner/test6' | sudo tee -a /home/runner/.profile
-          echo 'touch /home/runner/test7' | sudo tee -a /etc/bash.bashrc
-          echo 'touch /home/runner/test8' | sudo tee -a /etc/skel/.bashrc
-          echo 'TEST=asdf' | sudo tee -a /etc/environment
-          echo 'touch /home/runner/test10' | sudo tee -a /etc/profile.d/apps-bin-path.sh
-        shell: "bash -l {0}"
+          echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bash_profile
       - name: Lint charts
         run: |
-          echo $TEST
-          ls /home/runner/
-          export PATH="$PATH:$HOME/bin"
           while read chart; do
             CHART="$chart" make lint
           done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
-        shell: "bash -l {0}"
-      # - name: Test charts
-      #   run: |
-      #     export PATH="$PATH:$HOME/bin"
-      #     while read chart; do
-      #       CHART="$chart" make test
-      #     done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
+      - name: Test charts
+        run: |
+          while read chart; do
+            CHART="$chart" make test
+          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)

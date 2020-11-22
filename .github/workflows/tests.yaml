@@ -11,7 +11,7 @@ env:
 
 defaults:
   run:
-    shell: "/bin/bash -l -x -euo pipefail {0}"
+    shell: "/bin/bash -l -x -eo pipefail {0}"
 
 jobs:
   tests:

@@ -25,7 +25,7 @@ run-render-tests: check-required-envs
 	$(LOAD_WERF) && \
 	werf helm lint && \
 	diff -u --color=always <(cat .helm/charts/$(CHART_NAME)/render-tests/expected-render.yaml) <($(WERF_RENDER_COMMAND)) && \
-	tput setaf 2; echo "Tests passed successfully."; tput sgr 0
+	{ tput setaf 2; echo "Tests passed successfully."; tput sgr 0; }
 
 render-expected-output-for-render-tests: check-required-envs
 	export WERF_VALUES_OF_RENDER_TESTS=".helm/charts/$(CHART_NAME)/render-tests/values.yaml" && \

@@ -29,9 +29,9 @@ jobs:
         run: |
           while read chart; do
             CHART_NAME="$chart" make lint
-          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec basename '{}' \;)
+          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$1"' _ '{}' \;)
       - name: Run render tests for charts
         run: |
-          for chart in charts_with_render_tests; do
+          while read chart; do
             CHART_NAME="$chart" make run-render-tests
-          done
+          done < <(find .helm/charts -mindepth 2 -maxdepth 2 -type d -name render-tests -exec sh -c 'basename $(dirname "$1")' _ '{}' \;)

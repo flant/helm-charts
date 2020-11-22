@@ -39,6 +39,7 @@ jobs:
         shell: "bash -l {0}"
       - name: Lint charts
         run: |
+          ls /home/runner/
           export PATH="$PATH:$HOME/bin"
           while read chart; do
             CHART="$chart" make lint

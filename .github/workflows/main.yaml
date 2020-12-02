@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: "actions/checkout@v2"
       - name: Install dependencies
-        uses: ./.github/actions/install-dependencies.yaml
+        uses: ./.github/actions/install-dependencies
       - name: Setup multiwerf
         run: |
           mkdir -p ~/bin

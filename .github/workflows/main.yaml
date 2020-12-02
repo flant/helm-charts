@@ -7,10 +7,10 @@ env:
 on:
   push:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: "[opened, synchronize, reopened]"
 
 jobs:
-  main:
+  tests:
     runs-on: "ubuntu-18.04"
     steps:
       - uses: "actions/checkout@v2"
@@ -22,9 +22,15 @@ jobs:
         run: 'doit werf-lint -v "$WERF_VERSION"'
       - name: Werf render charts
         run: 'doit werf-render -v "$WERF_VERSION"'
+  publish-charts:
+    runs-on: "ubuntu-18.04"
+    if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == env.UPSTREAM_REPO"
+    needs: "tests"
+    steps:
+      - uses: "actions/checkout@v2"
+      - name: Install dependencies
+        uses: "./.github/actions/install-dependencies"
       - name: Package werf charts
         run: 'doit werf-package-charts'
-        if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == env.UPSTREAM_REPO"
       - name: Publish packaged werf charts
         run: 'doit werf-publish-chart-packages'
-        if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == env.UPSTREAM_REPO"

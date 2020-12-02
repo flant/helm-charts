@@ -16,9 +16,16 @@ jobs:
     steps:
       - uses: "actions/checkout@v2"
       - name: Install dependencies
-        uses: "./.github/actions/install-dependencies"
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install python3 python3-setuptools
+          sudo pip3 install -r requirements.txt
       - name: Setup multiwerf
-        uses: "./.github/actions/setup-multiwerf"
+        run: |
+          mkdir -p ~/bin
+          cd ~/bin
+          curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+          echo "$HOME/bin" >> $GITHUB_PATH
       - name: Werf lint charts
         run: 'doit werf-lint'
       - name: Werf render charts
@@ -30,7 +37,10 @@ jobs:
     steps:
       - uses: "actions/checkout@v2"
       - name: Install dependencies
-        uses: "./.github/actions/install-dependencies"
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install python3 python3-setuptools
+          sudo pip3 install -r requirements.txt
       - name: Package werf charts
         run: 'doit werf-package-charts'
       - name: Publish packaged werf charts

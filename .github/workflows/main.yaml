@@ -2,7 +2,6 @@ name: main
 
 env:
   WERF_VERSION: "1.1 ea"
-  UPSTREAM_REPO: "flant/helm-charts"
 
 on:
   push:
@@ -24,7 +23,7 @@ jobs:
         run: 'doit werf-render -v "$WERF_VERSION"'
   publish-charts:
     runs-on: "ubuntu-18.04"
-    if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == env.UPSTREAM_REPO"
+    if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'flant/helm-charts'"
     needs: "tests"
     steps:
       - uses: "actions/checkout@v2"

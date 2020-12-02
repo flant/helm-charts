@@ -1,0 +1,9 @@
+name: Install dependencies
+runs:
+  using: composite
+  steps:
+  - name: Install dependencies
+    run: |
+      sudo apt-get -qq update
+      sudo apt-get -qq install python3 python3-setuptools
+      sudo pip3 install yq doit

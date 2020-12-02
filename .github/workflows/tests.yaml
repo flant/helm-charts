@@ -1,37 +1,34 @@
 name: tests
 
+env:
+  WERF_VERSION: "1.1 ea"
+  HELM_VERSION: "3.4.1"
+
 on:
   push:
   pull_request:
     types: [assigned, opened, synchronize, reopened]
-
-defaults:
-  run:
-    shell: "/bin/bash -l -eo pipefail {0}"
 
 jobs:
   tests:
     runs-on: "ubuntu-18.04"
     steps:
       - uses: "actions/checkout@v2"
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get -qq install make python
-          sudo pip install yq
+          sudo apt-get -qq install python3
+          sudo pip3 install yq doit
+          curl -sSLO https://get.helm.sh/helm-v{HELM_VERSION}-linux-amd64.tar.gz
+          tar xf helm-v{HELM_VERSION}-linux-amd64.tar.gz
+          install -t /usr/local/bin/ linux-amd64/helm
       - name: Setup multiwerf
         run: |
           mkdir -p ~/bin
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
-          echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bash_profile
+          echo "$HOME/bin" >> $GITHUB_PATH
       - name: Lint charts
-        run: |
-          while read chart; do
-            CHART_NAME="$chart" make lint
-          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$1"' _ '{}' \;)
-      - name: Run render tests for charts
-        run: |
-          while read chart; do
-            CHART_NAME="$chart" make run-render-tests
-          done < <(find .helm/charts -mindepth 2 -maxdepth 2 -type d -name render-tests -exec sh -c 'basename $(dirname "$1")' _ '{}' \;)
+        run: "doit lint --werf-version {WERF_VERSION}"
+      - name: Render charts
+        run: "doit render --werf-version {WERF_VERSION}"

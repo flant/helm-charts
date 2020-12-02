@@ -14,8 +14,10 @@ jobs:
     runs-on: "ubuntu-18.04"
     steps:
       - uses: "actions/checkout@v2"
-      - uses: "./.github/actions/install-dependencies"
-      - uses: "./.github/actions/setup-multiwerf"
+      - name: Install dependencies
+        uses: "./.github/actions/install-dependencies"
+      - name: Setup multiwerf
+        uses: "./.github/actions/setup-multiwerf"
       - name: Werf lint charts
         run: 'doit werf-lint -v "$WERF_VERSION"'
       - name: Werf render charts

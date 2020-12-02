@@ -19,8 +19,8 @@ jobs:
           sudo apt-get -qq update
           sudo apt-get -qq install python3 python3-setuptools
           sudo pip3 install yq doit
-          curl -sSLO https://get.helm.sh/helm-v{HELM_VERSION}-linux-amd64.tar.gz
-          tar xf helm-v{HELM_VERSION}-linux-amd64.tar.gz
+          curl -sSLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
+          tar xf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
           install -t /usr/local/bin/ linux-amd64/helm
       - name: Setup multiwerf
         run: |
@@ -29,6 +29,6 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           echo "$HOME/bin" >> $GITHUB_PATH
       - name: Lint charts
-        run: "doit lint --werf-version {WERF_VERSION}"
+        run: "doit lint --werf-version $WERF_VERSION"
       - name: Render charts
-        run: "doit render --werf-version {WERF_VERSION}"
+        run: "doit render --werf-version $WERF_VERSION"

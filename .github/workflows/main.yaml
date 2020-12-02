@@ -2,8 +2,9 @@ name: main
 
 env:
   DOIT_WERF_VERSION: "1.1 ea"
-  CHARTMUSEUM_BASIC_AUTH_USER: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_USER }}"
-  CHARTMUSEUM_BASIC_AUTH_PASS: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_PASS }}"
+  DOIT_CHARTMUSEUM_BASIC_AUTH_USER: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_USER }}"
+  DOIT_CHARTMUSEUM_BASIC_AUTH_PASS: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_PASS }}"
+  DOIT_CHARTMUSEUM_URL: "https://charts.flant.com/"
 
 on:
   push:
@@ -44,8 +45,4 @@ jobs:
       - name: Package werf charts
         run: 'doit werf-package-charts'
       - name: Publish packaged werf charts
-        run: |
-          doit werf-publish-chart-packages \
-            --chartmuseum-url "https://charts.flant.com/" \
-            --chartmuseum-basic-auth-user "$CHARTMUSEUM_BASIC_AUTH_USER" \
-            --chartmuseum-basic-auth-pass "$CHARTMUSEUM_BASIC_AUTH_PASS"
+        run: 'doit werf-publish-chart-packages'

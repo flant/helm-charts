@@ -31,7 +31,7 @@ jobs:
         run: 'doit werf-render -v "$WERF_VERSION"'
       - name: Package werf charts
         run: 'doit werf-package-charts'
-        if: "github.event_name == 'push' and github.ref == 'refs/heads/master' and github.repository == 'env.MAIN_REPO'"
+        if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'env.MAIN_REPO'"
       - name: Publish packaged werf charts
         run: 'doit werf-publish-chart-packages'
-        if: "github.event_name == 'push' and github.ref == 'refs/heads/master' and github.repository == 'env.MAIN_REPO'"
+        if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'env.MAIN_REPO'"

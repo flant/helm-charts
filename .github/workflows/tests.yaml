@@ -25,7 +25,7 @@ jobs:
           cd ~/bin
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           echo "$HOME/bin" >> $GITHUB_PATH
-      - name: Lint charts
-        run: "doit lint --werf-version $WERF_VERSION"
-      - name: Render charts
-        run: "doit render --werf-version $WERF_VERSION"
+      - name: Werf lint charts
+        run: "doit werf-lint --werf-version $WERF_VERSION"
+      - name: Werf render charts
+        run: "doit werf-render --werf-version $WERF_VERSION"

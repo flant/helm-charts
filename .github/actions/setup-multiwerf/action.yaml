@@ -1,0 +1,10 @@
+runs:
+  using: composite
+  steps:
+  - name: Setup multiwerf
+    run: |
+      mkdir -p ~/bin
+      cd ~/bin
+      curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
+      echo "$HOME/bin" >> $GITHUB_PATH
+    shell: bash

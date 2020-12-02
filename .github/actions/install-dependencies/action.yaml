@@ -1,4 +1,3 @@
-name: Install dependencies
 runs:
   using: composite
   steps:

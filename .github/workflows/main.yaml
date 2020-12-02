@@ -1,7 +1,7 @@
 name: main
 
 env:
-  WERF_VERSION: "1.1 ea"
+  DOIT_WERF_VERSION: "1.1 ea"
   CHARTMUSEUM_BASIC_AUTH_USER: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_USER }}"
   CHARTMUSEUM_BASIC_AUTH_PASS: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_PASS }}"
 
@@ -20,9 +20,9 @@ jobs:
       - name: Setup multiwerf
         uses: "./.github/actions/setup-multiwerf"
       - name: Werf lint charts
-        run: 'doit werf-lint -v "$WERF_VERSION"'
+        run: 'doit werf-lint'
       - name: Werf render charts
-        run: 'doit werf-render -v "$WERF_VERSION"'
+        run: 'doit werf-render'
   publish-charts:
     runs-on: "ubuntu-18.04"
     if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'flant/helm-charts'"

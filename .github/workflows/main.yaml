@@ -32,4 +32,8 @@ jobs:
       - name: Package werf charts
         run: 'doit werf-package-charts'
       - name: Publish packaged werf charts
-        run: 'doit werf-publish-chart-packages'
+        run: |
+          doit werf-publish-chart-packages \
+            --chartmuseum-url "https://charts.flant.com/" \
+            --chartmuseum-basic-auth-user "FIXME" \
+            --chartmuseum-basic-auth-pass "FIXME"

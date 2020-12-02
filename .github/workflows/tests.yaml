@@ -21,8 +21,7 @@ jobs:
           sudo pip3 install yq doit
           curl -sSLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
           tar xf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
-          which helm
-          file /usr/local/bin/helm
+          helm --version
           install -t /usr/local/bin/ linux-amd64/helm
       - name: Setup multiwerf
         run: |

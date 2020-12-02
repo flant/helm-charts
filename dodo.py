@@ -1,4 +1,4 @@
-import glob, os.path, sys
+import glob, os.path, sys, urllib.parse
 
 from doit.action import CmdAction
 
@@ -287,7 +287,7 @@ def action_werf_publish_chart_package(package_path, chartmuseum_url, chartmuseum
     (
       f'curl -sSL --post301 --data-binary "@{package_path}"'
       f' --user "{chartmuseum_basic_auth_user}:{chartmuseum_basic_auth_pass}"'
-      f' "{chartmuseum_url}/api/charts"'
+      f' "{urllib.parse.urljoin(chartmuseum_url, "/api/charts")}"'
     )
   ]
 

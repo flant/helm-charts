@@ -114,7 +114,7 @@ def task_werf_package_charts():
     return " && ".join(commands)
 
   return {
-    "basename": "werf-package",
+    "basename": "werf-package-charts",
     "verbosity": 2,
     "actions": [CmdAction(werf_package_charts, executable="/bin/bash")],
     "params": get_common_extra_params() + [
@@ -133,8 +133,9 @@ def task_werf_package_charts():
 def task_werf_publish_chart_packages():
   """ Publish packaged werf chart(s) to ChartMuseum """
 
-  def werf_publish_chart_packages(chart_package_filenames, extra_args, extra_env_vars, chartmuseum_url=None,
-                                  chartmuseum_basic_auth_user=None, chartmuseum_basic_auth_pass=None):
+  def werf_publish_chart_packages(chart_package_filenames, extra_args, extra_env_vars,
+                                  chartmuseum_url=None, chartmuseum_basic_auth_user=None,
+                                  chartmuseum_basic_auth_pass=None):
     abort_if_param_undefined({"--chartmuseum-url": chartmuseum_url,
                               "--chartmuseum-basic-auth-user": chartmuseum_basic_auth_user,
                               "--chartmuseum-basic-auth-pass": chartmuseum_basic_auth_pass})

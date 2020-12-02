@@ -1,16 +1,16 @@
-name: tests
+name: main
 
 env:
   WERF_VERSION: "1.1 ea"
-  HELM_VERSION: "3.4.1"
+  MAIN_REPO: "flant/helm-charts"
 
 on:
   push:
   pull_request:
-    types: [assigned, opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]
 
 jobs:
-  tests:
+  main:
     runs-on: "ubuntu-18.04"
     steps:
       - uses: "actions/checkout@v2"
@@ -26,6 +26,12 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           echo "$HOME/bin" >> $GITHUB_PATH
       - name: Werf lint charts
-        run: 'doit werf-lint --werf-version "$WERF_VERSION"'
+        run: 'doit werf-lint -v "$WERF_VERSION"'
       - name: Werf render charts
-        run: 'doit werf-render --werf-version "$WERF_VERSION"'
+        run: 'doit werf-render -v "$WERF_VERSION"'
+      - name: Package werf charts
+        run: 'doit werf-package-charts'
+        if: "github.event_name == 'push' and github.ref == 'refs/heads/master' and github.repository == 'env.MAIN_REPO'"
+      - name: Publish packaged werf charts
+        run: 'doit werf-publish-chart-packages'
+        if: "github.event_name == 'push' and github.ref == 'refs/heads/master' and github.repository == 'env.MAIN_REPO'"

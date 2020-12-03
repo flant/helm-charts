@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get -qq install python3 python3-setuptools
+          sudo apt-get -qq install python3 python3-pip python3-setuptools
           sudo pip3 install -r requirements.txt
       - name: Setup multiwerf
         run: |
@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get -qq install python3 python3-setuptools
+          sudo apt-get -qq install python3 python3-pip python3-setuptools
           sudo pip3 install -r requirements.txt
       - name: Package werf charts
         run: 'doit werf-package-charts'

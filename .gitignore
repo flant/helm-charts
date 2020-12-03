@@ -331,3 +331,4 @@ dmypy.json
 
 /.doit.*
 /.packages/
+/.helm/**/requirements.lock

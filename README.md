@@ -15,3 +15,7 @@
     =================================================
     enabled: false
     ```
+
+## Charts publishing
+
+Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/

@@ -23,6 +23,9 @@ global:
         test: nestedInclude1Test2Key10
         test2: nestedInclude1Test2Key10
 
+  werf:
+    repo: example.org/repogroup/repo
+
 flant-lib:
   _tests: true
 
@@ -111,3 +114,15 @@ flant-lib:
   isTrueOrFalse:
     "true": true
     "false": false
+
+  image:
+    onlyStatic:
+      name: "test"
+      staticTag: "staticImageTag"
+    onlySignatureBased:
+      name: "test"
+      generateSignatureBasedTag: true
+    both:
+      name: "test"
+      staticTag: "staticImageTag"
+      generateSignatureBasedTag: true

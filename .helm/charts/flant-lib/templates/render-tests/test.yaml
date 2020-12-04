@@ -82,5 +82,16 @@ testValPrefixSuffix:
   prefix: {{ include "flant-lib.value" (list $ . "body" (dict "prefix" $.Values.val.prefix)) }}
   suffix: {{ include "flant-lib.value" (list $ . "body" (dict "suffix" $.Values.val.suffix)) }}
 
+---
+kind: TestLabels
+testLabels:
+  labels: {{ include "flant-lib.generateLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
+
+---
+kind: TestImage
+testImage:
+  onlyStatic: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.onlyStatic) }}
+  onlySignatureBased: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.onlySignatureBased) }}
+  both: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.both) }}
 {{- end }}
 {{- end }}

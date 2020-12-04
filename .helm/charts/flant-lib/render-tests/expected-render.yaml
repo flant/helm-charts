@@ -12,6 +12,12 @@ testEnvs:
   - name: STRING
     value: string
 ---
+kind: TestImage
+testImage:
+  onlyStatic: test:staticImageTag
+  onlySignatureBased: stub/repository:test-TAG
+  both: stub/repository:test-TAG
+---
 kind: TestInclude
 valuesDump:
   map1:
@@ -43,6 +49,13 @@ testIsTrue:
 testIsFalse:
   'yes': 'yes'
   'no': 'no'
+---
+kind: TestLabels
+testLabels:
+  labels:
+    app: charts
+    chart: flant-lib
+    repo: repogroup-repo
 ---
 kind: TestResources
 testResources:

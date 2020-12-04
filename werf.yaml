@@ -1,2 +1,6 @@
 project: charts
 configVersion: 1
+
+---
+image: test
+from: alpine

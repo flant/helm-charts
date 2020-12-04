@@ -7,6 +7,7 @@ WERF_VERSION ?= 1.1 ea
 WERF_ENV ?= test
 WERF_SET_90 ?= global.ci_url=example.org
 WERF_SET_91 ?= $(CHART_NAME).enabled=true
+WERF_SET_92 ?= global.werf.repo=example.org/repogroup/repo
 
 LOAD_WERF = source <(multiwerf use $(WERF_VERSION))
 WERF_RENDER_COMMAND = werf helm render | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]'

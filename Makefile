@@ -1,5 +1,3 @@
-# Don't use this, this is deprecated
-
 TERM ?= xterm
 SHELL = /bin/bash
 
@@ -19,7 +17,7 @@ render: check-required-envs
 	$(LOAD_WERF) && \
 	$(WERF_RENDER_COMMAND)
 
-lint: CHART = $(CHART_NAME)
+# lint: CHART = $(CHART_NAME)
 lint: check-required-envs
 	$(LOAD_WERF) && \
 	werf helm lint && \

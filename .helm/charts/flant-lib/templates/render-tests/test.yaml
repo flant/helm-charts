@@ -1,11 +1,11 @@
 {{- if $.Values._tests }}
-{{- include "flant-lib.expandIncludesInValues" (list $ $.Values) }}
+{{- include "fl.expandIncludesInValues" (list $ $.Values) }}
 {{- range list "" }}
 
 ---
 kind: TestEnvs
 testEnvs:
-  env: {{ include "flant-lib.generateContainerEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
+  env: {{ include "fl.generateContainerEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
 
 ---
 kind: TestInclude
@@ -15,83 +15,83 @@ valuesDump: {{ $.Values.include | toYaml | nindent 4 }}
 kind: TestIsTrue
 testIsTrue:
   "yes": >-
-    {{ if include "flant-lib.isTrue" (list $ . $.Values.isTrueOrFalse.true) -}}
+    {{ if include "fl.isTrue" (list $ . $.Values.isTrueOrFalse.true) -}}
       yes
     {{- end }}
   "no": >-
-    {{ if not (include "flant-lib.isTrue" (list $ . $.Values.isTrueOrFalse.false)) -}}
+    {{ if not (include "fl.isTrue" (list $ . $.Values.isTrueOrFalse.false)) -}}
       no
     {{- end }}
 testIsFalse:
   "yes": >-
-    {{ if include "flant-lib.isFalse" (list $ . $.Values.isTrueOrFalse.false) -}}
+    {{ if include "fl.isFalse" (list $ . $.Values.isTrueOrFalse.false) -}}
       yes
     {{- end }}
   "no": >-
-    {{ if not (include "flant-lib.isFalse" (list $ . $.Values.isTrueOrFalse.true)) -}}
+    {{ if not (include "fl.isFalse" (list $ . $.Values.isTrueOrFalse.true)) -}}
       no
     {{- end }}
 
 ---
 kind: TestResources
 testResources:
-  none: {{ include "flant-lib.generateContainerResources" (list $ . $.Values.resources.none) | nindent 4 }}
-  empty: {{ include "flant-lib.generateContainerResources" (list $ . $.Values.resources.empty) | nindent 4 }}
-  onlyRequests: {{ include "flant-lib.generateContainerResources" (list $ . $.Values.resources.onlyRequests) | nindent 4 }}
-  all: {{ include "flant-lib.generateContainerResources" (list $ . $.Values.resources.all) | nindent 4 }}
-  multiEnv: {{ include "flant-lib.generateContainerResources" (list $ . $.Values.resources.multiEnv) | nindent 4 }}
+  none: {{ include "fl.generateContainerResources" (list $ . $.Values.resources.none) | nindent 4 }}
+  empty: {{ include "fl.generateContainerResources" (list $ . $.Values.resources.empty) | nindent 4 }}
+  onlyRequests: {{ include "fl.generateContainerResources" (list $ . $.Values.resources.onlyRequests) | nindent 4 }}
+  all: {{ include "fl.generateContainerResources" (list $ . $.Values.resources.all) | nindent 4 }}
+  multiEnv: {{ include "fl.generateContainerResources" (list $ . $.Values.resources.multiEnv) | nindent 4 }}
 
 ---
 kind: TestVal
 testValTypes:
-  string: {{ include "flant-lib.value" (list $ . $.Values.val.string) }}
-  emptyString: {{ include "flant-lib.value" (list $ . $.Values.val.emptyString) }}
-  booleanFalse: {{ include "flant-lib.value" (list $ . $.Values.val.booleanFalse) }}
-  booleanTrue: {{ include "flant-lib.value" (list $ . $.Values.val.booleanTrue) }}
-  number: {{ include "flant-lib.value" (list $ . $.Values.val.number) }}
-  nullType: {{ include "flant-lib.value" (list $ . $.Values.val.nullType) }}
-  nilType: {{ include "flant-lib.value" (list $ . $.Values.val.nilType) }}
-  map: {{ include "flant-lib.value" (list $ . $.Values.val.map) | nindent 4 }}
-  emptyMap: {{ include "flant-lib.value" (list $ . $.Values.val.emptyMap) | nindent 4 }}
-  list: {{ include "flant-lib.value" (list $ . $.Values.val.list) | nindent 4 }}
-  emptyList: {{ include "flant-lib.value" (list $ . $.Values.val.emptyList) | nindent 4 }}
+  string: {{ include "fl.value" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "fl.value" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "fl.value" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "fl.value" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "fl.value" (list $ . $.Values.val.number) }}
+  nullType: {{ include "fl.value" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "fl.value" (list $ . $.Values.val.nilType) }}
+  map: {{ include "fl.value" (list $ . $.Values.val.map) | nindent 4 }}
+  emptyMap: {{ include "fl.value" (list $ . $.Values.val.emptyMap) | nindent 4 }}
+  list: {{ include "fl.value" (list $ . $.Values.val.list) | nindent 4 }}
+  emptyList: {{ include "fl.value" (list $ . $.Values.val.emptyList) | nindent 4 }}
 testValQTypes:
-  string: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.string) }}
-  emptyString: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.emptyString) }}
-  booleanFalse: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.booleanFalse) }}
-  booleanTrue: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.booleanTrue) }}
-  number: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.number) }}
-  nullType: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.nullType) }}
-  nilType: {{ include "flant-lib.valueQuoted" (list $ . $.Values.val.nilType) }}
+  string: {{ include "fl.valueQuoted" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "fl.valueQuoted" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "fl.valueQuoted" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "fl.valueQuoted" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "fl.valueQuoted" (list $ . $.Values.val.number) }}
+  nullType: {{ include "fl.valueQuoted" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "fl.valueQuoted" (list $ . $.Values.val.nilType) }}
 testValSQTypes:
-  string: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.string) }}
-  emptyString: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.emptyString) }}
-  booleanFalse: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.booleanFalse) }}
-  booleanTrue: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.booleanTrue) }}
-  number: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.number) }}
-  nullType: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.nullType) }}
-  nilType: {{ include "flant-lib.valueSingleQuoted" (list $ . $.Values.val.nilType) }}
+  string: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.string) }}
+  emptyString: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.emptyString) }}
+  booleanFalse: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.booleanFalse) }}
+  booleanTrue: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.booleanTrue) }}
+  number: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.number) }}
+  nullType: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.nullType) }}
+  nilType: {{ include "fl.valueSingleQuoted" (list $ . $.Values.val.nilType) }}
 testValEnvs:
-  multiEnv: {{ include "flant-lib.value" (list $ . $.Values.val.multiEnv) }}
-  onlyDefaultEnv: {{ include "flant-lib.value" (list $ . $.Values.val.onlyDefaultEnv) }}
-  onlyCustomEnv: {{ include "flant-lib.value" (list $ . $.Values.val.onlyCustomEnv) }}
-  multiEnvBooleanFalse: {{ include "flant-lib.value" (list $ . $.Values.val.multiEnvBooleanFalse) }}
+  multiEnv: {{ include "fl.value" (list $ . $.Values.val.multiEnv) }}
+  onlyDefaultEnv: {{ include "fl.value" (list $ . $.Values.val.onlyDefaultEnv) }}
+  onlyCustomEnv: {{ include "fl.value" (list $ . $.Values.val.onlyCustomEnv) }}
+  multiEnvBooleanFalse: {{ include "fl.value" (list $ . $.Values.val.multiEnvBooleanFalse) }}
 testValTemplating:
-  template: {{ include "flant-lib.value" (list $ . $.Values.val.template) }}
+  template: {{ include "fl.value" (list $ . $.Values.val.template) }}
 testValPrefixSuffix:
-  prefix: {{ include "flant-lib.value" (list $ . "body" (dict "prefix" $.Values.val.prefix)) }}
-  suffix: {{ include "flant-lib.value" (list $ . "body" (dict "suffix" $.Values.val.suffix)) }}
+  prefix: {{ include "fl.value" (list $ . "body" (dict "prefix" $.Values.val.prefix)) }}
+  suffix: {{ include "fl.value" (list $ . "body" (dict "suffix" $.Values.val.suffix)) }}
 
 ---
 kind: TestLabels
 testLabels:
-  labels: {{ include "flant-lib.generateLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
+  labels: {{ include "fl.generateLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
 
 ---
 kind: TestImage
 testImage:
-  onlyStatic: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.onlyStatic) }}
-  onlySignatureBased: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.onlySignatureBased) }}
-  both: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image.both) }}
+  onlyStatic: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.onlyStatic) }}
+  onlySignatureBased: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.onlySignatureBased) }}
+  both: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.both) }}
 {{- end }}
 {{- end }}

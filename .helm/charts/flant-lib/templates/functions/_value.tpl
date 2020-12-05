@@ -65,7 +65,7 @@
   ————————————————————————————————————————————————————————————————————
   | .helm/templates/test.yaml:
   ————————————————————————————————————————————————————————————————————
-  | key1: {{ include "flant-lib.value" (list $ . $.Values.memory (dict "suffix" "Mi") }}
+  | key1: {{ include "fl.value" (list $ . $.Values.memory (dict "suffix" "Mi") }}
   ————————————————————————————————————————————————————————————————————
 
   General usage:
@@ -77,10 +77,10 @@
   ————————————————————————————————————————————————————————————————————
   | .helm/templates/test.yaml:
   ————————————————————————————————————————————————————————————————————
-  | key1: {{ include "flant-lib.value" (list $ . $.Values.key1) }}
+  | key1: {{ include "fl.value" (list $ . $.Values.key1) }}
   ————————————————————————————————————————————————————————————————————
 */}}
-{{- define "flant-lib.value" }}
+{{- define "fl.value" }}
   {{- $ := index . 0 }}
   {{- $relativeScope := index . 1 }}
   {{- $val := index . 2 }}
@@ -103,13 +103,13 @@
     {{- else if hasKey $val "_default" }}
       {{- $currentEnvVal = index $val "_default" }}
     {{- end }}
-    {{- include "flant-lib._renderValue" (list $ $relativeScope $currentEnvVal $prefix $suffix) }}
+    {{- include "fl._renderValue" (list $ $relativeScope $currentEnvVal $prefix $suffix) }}
   {{- else }}
-    {{- include "flant-lib._renderValue" (list $ $relativeScope $val $prefix $suffix) }}
+    {{- include "fl._renderValue" (list $ $relativeScope $val $prefix $suffix) }}
   {{- end }}
 {{- end }}
 
-{{- define "flant-lib._renderValue" }}
+{{- define "fl._renderValue" }}
   {{- $ := index . 0 }}
   {{- $relativeScope := index . 1 }}
   {{- $val := index . 2 }}
@@ -135,11 +135,11 @@
 
 
 {{/*
-  Invokes "flant-lib.value" template and if there is a result, then quotes it, otherwise
+  Invokes "fl.value" template and if there is a result, then quotes it, otherwise
   no quotes.
 */}}
-{{- define "flant-lib.valueQuoted" }}
-  {{- $result := include "flant-lib.value" . }}
+{{- define "fl.valueQuoted" }}
+  {{- $result := include "fl.value" . }}
   {{- if ne $result "" }}
     {{- $result | quote }}
   {{- end }}
@@ -147,11 +147,11 @@
 
 
 {{/*
-  Invokes "flant-lib.value" template and if there is a result, then single quotes it,
+  Invokes "fl.value" template and if there is a result, then single quotes it,
   otherwise no quotes.
 */}}
-{{- define "flant-lib.valueSingleQuoted" }}
-  {{- $result := include "flant-lib.value" . }}
+{{- define "fl.valueSingleQuoted" }}
+  {{- $result := include "fl.value" . }}
   {{- if ne $result "" }}
     {{- $result | squote }}
   {{- end }}

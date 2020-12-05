@@ -1,6 +1,6 @@
 {{/* TODO: refactor, document */}}
 {{/*
-{{- define "flant-lib.percentage" }}
+{{- define "fl.percentage" }}
   {{- $num := index . 0 }}
   {{- $percents := index . 1 }}
 

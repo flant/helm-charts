@@ -19,7 +19,7 @@
   | .helm/templates/test.yaml:
   ————————————————————————————————————————————————————————————————————
   | # Place this somewhere at the beginning of your manifest:
-  | {{- include "flant-lib.expandIncludesInValues" (list $ $.Values) }}
+  | {{- include "fl.expandIncludesInValues" (list $ $.Values) }}
   |
   | {{ $.Values.map1 }}
   ————————————————————————————————————————————————————————————————————
@@ -56,7 +56,7 @@
   as it is in your values.yaml.
 
   8. Use "null", "", [], {} or similar to undefine previously defined values.
-  Works well with "flant-lib.value" helper.
+  Works well with "fl.value" helper.
   ————————————————————————————————————————————————————————————————————
 
   PS: the stuff below is complex and scary, and I can't make it simpler
@@ -64,40 +64,40 @@
 */}}
 
 {{/* FIXME: merge values in simple form with expanded form */}}
-{{- define "flant-lib.expandIncludesInValues" }}
+{{- define "fl.expandIncludesInValues" }}
   {{- $ := index . 0 }}
   {{- $location := index . 1 }}  {{/* Expand includes recursively starting here */}}
 
   {{- if kindIs "map" $location }}
-    {{- include "flant-lib._recursiveMergeAndExpandIncludes" (list $ $location) }}
+    {{- include "fl._recursiveMergeAndExpandIncludes" (list $ $location) }}
   {{- else if kindIs "slice" $location }}
     {{- range $_, $locationNested := $location }}
-      {{- include "flant-lib.expandIncludesInValues" (list $ $locationNested) }}
+      {{- include "fl.expandIncludesInValues" (list $ $locationNested) }}
     {{- end }}
   {{- end }}
 {{- end }}
 
-{{- define "flant-lib._recursiveMergeAndExpandIncludes" }}
+{{- define "fl._recursiveMergeAndExpandIncludes" }}
   {{- $ := index . 0 }}
   {{- $mergeInto := index . 1 }}
 
   {{- if kindIs "map" $mergeInto }}
     {{- if hasKey $mergeInto "_include" }}
-      {{- $joinedIncludes := (include "flant-lib._getJoinedIncludesInJson" (list $ $mergeInto._include) | fromJson).wrapper }}
+      {{- $joinedIncludes := (include "fl._getJoinedIncludesInJson" (list $ $mergeInto._include) | fromJson).wrapper }}
       {{- $_ := unset $mergeInto "_include" }}
-      {{- include "flant-lib._recursiveMapsMerge" (list $ $joinedIncludes $mergeInto) }}
-      {{- include "flant-lib.expandIncludesInValues" (list $ $mergeInto) }}
+      {{- include "fl._recursiveMapsMerge" (list $ $joinedIncludes $mergeInto) }}
+      {{- include "fl.expandIncludesInValues" (list $ $mergeInto) }}
     {{- else }}
       {{- range $nestedKey, $nestedVal := $mergeInto }}
         {{- if ne $nestedKey "_includes" }}
-          {{- include "flant-lib.expandIncludesInValues" (list $ $nestedVal) }}
+          {{- include "fl.expandIncludesInValues" (list $ $nestedVal) }}
         {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
 
-{{- define "flant-lib._getJoinedIncludesInJson" }}
+{{- define "fl._getJoinedIncludesInJson" }}
   {{- $ := index . 0 }}
   {{- $includesNames := index . 1 }}
 
@@ -108,12 +108,12 @@
 
   {{- $joinedIncludesResult := dict }}
   {{- range $i, $includeBody := reverse $includesBodies }}
-    {{- include "flant-lib._recursiveMapsMerge" (list $ $includeBody $joinedIncludesResult) }}
+    {{- include "fl._recursiveMapsMerge" (list $ $includeBody $joinedIncludesResult) }}
   {{- end }}
   {{- dict "wrapper" $joinedIncludesResult | toJson }}
 {{- end }}
 
-{{- define "flant-lib._recursiveMapsMerge" }}
+{{- define "fl._recursiveMapsMerge" }}
   {{- $ := index . 0 }}
   {{- $mapToMergeFrom := index . 1 }}
   {{- $mapToMergeInto := index . 2 }}
@@ -123,7 +123,7 @@
 
     {{- if kindIs "map" $valToMergeFrom }}
       {{- if kindIs "map" $valToMergeInto }}
-        {{- include "flant-lib._recursiveMapsMerge" (list $ $valToMergeFrom $valToMergeInto) }}
+        {{- include "fl._recursiveMapsMerge" (list $ $valToMergeFrom $valToMergeInto) }}
       {{- else if not (hasKey $mapToMergeInto $keyToMergeFrom) }}
         {{- $_ := set $mapToMergeInto $keyToMergeFrom $valToMergeFrom }}
       {{- end }}
@@ -131,7 +131,7 @@
     {{- else if kindIs "slice" $valToMergeFrom }}
       {{- if eq $keyToMergeFrom "_include" }}
         {{- if kindIs "slice" $valToMergeInto }}
-          {{- $joinedIncludes := (include "flant-lib._concatLists" (list $valToMergeFrom $valToMergeInto) | fromJson).wrapper }}
+          {{- $joinedIncludes := (include "fl._concatLists" (list $valToMergeFrom $valToMergeInto) | fromJson).wrapper }}
           {{- $_ := unset $mapToMergeInto "_include" }}
           {{- $_ := set $mapToMergeInto "_include" $joinedIncludes }}
         {{- else }}
@@ -148,7 +148,7 @@
   {{- end }}
 {{- end }}
 
-{{- define "flant-lib._concatLists" }}
+{{- define "fl._concatLists" }}
   {{- $lists := index . }}
 
   {{- $result := list }}

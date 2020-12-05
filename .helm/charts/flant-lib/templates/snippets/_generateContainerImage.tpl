@@ -11,7 +11,7 @@
   ————————————————————————————————————————————————————————————————————
   | .helm/templates/test.yaml:
   ————————————————————————————————————————————————————————————————————
-  |   image: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
+  |   image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
   ————————————————————————————————————————————————————————————————————
   Results in:
   ————————————————————————————————————————————————————————————————————
@@ -28,21 +28,21 @@
   ————————————————————————————————————————————————————————————————————
   | .helm/templates/test.yaml:
   ————————————————————————————————————————————————————————————————————
-  |   image: {{ include "flant-lib.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
+  |   image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
   ————————————————————————————————————————————————————————————————————
   Results in:
   ————————————————————————————————————————————————————————————————————
   |   image: example.org/repogroup/repo/backend:dfe383f700b1fb09f9881f330d22a9637d2b154ae3cb91b9cd3658f7
   ————————————————————————————————————————————————————————————————————
 */}}
-{{- define "flant-lib.generateContainerImageQuoted" }}
+{{- define "fl.generateContainerImageQuoted" }}
   {{- $ := index . 0 }}
   {{- $relativeScope := index . 1 }}
   {{- $imageConfig := index . 2 }}
 
-  {{- if include "flant-lib.isTrue" (list $ . $imageConfig.generateSignatureBasedTag) }}
+  {{- if include "fl.isTrue" (list $ . $imageConfig.generateSignatureBasedTag) }}
     {{- include "werf_container_image" (list $imageConfig.name $) | trimPrefix "image: " }}
   {{- else -}}
-    '{{ include "flant-lib.value" (list $ . $imageConfig.name) }}:{{ include "flant-lib.value" (list $ . $imageConfig.staticTag) }}'
+    '{{ include "fl.value" (list $ . $imageConfig.name) }}:{{ include "fl.value" (list $ . $imageConfig.staticTag) }}'
   {{- end }}
 {{- end }}

@@ -8,10 +8,10 @@
   | {{- $appName := printf "%s-sidekiq" $.Values.global.werf.name }}
   | kind: Deployment
   | metadata:
-  |   labels: {{ include "flant-lib.generateLabels" (list $ . $appName) | nindent 4 }}
+  |   labels: {{ include "fl.generateLabels" (list $ . $appName) | nindent 4 }}
   ————————————————————————————————————————————————————————————————————
 */}}
-{{- define "flant-lib.generateLabels" }}
+{{- define "fl.generateLabels" }}
   {{- $ := index . 0 }}
   {{- $relativeScope := index . 1 }}
   {{- $appName := index . 2 }}

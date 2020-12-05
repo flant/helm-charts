@@ -14,7 +14,7 @@
   ————————————————————————————————————————————————————————————————————
   | kind: Deployment
   | ...
-  |   env: {{ include "flant-lib.generateContainerEnvVars" (list $ . .envs) | nindent 4 }}
+  |   env: {{ include "fl.generateContainerEnvVars" (list $ . .envs) | nindent 4 }}
   ————————————————————————————————————————————————————————————————————
   Results in:
   ————————————————————————————————————————————————————————————————————
@@ -28,13 +28,13 @@
   NOTE: no way to pass empty string as a value, it would cause the variable
   not to be rendered at all (TODO: although "nil" might work?)
 */}}
-{{- define "flant-lib.generateContainerEnvVars" }}
+{{- define "fl.generateContainerEnvVars" }}
   {{- $ := index . 0 }}
   {{- $relativeScope := index . 1 }}
   {{- $envs := index . 2 }}
 
   {{- range $envVarName, $envVarVal := $envs }}
-    {{- $envVarVal = include "flant-lib.valueQuoted" (list $ $relativeScope $envVarVal) }}
+    {{- $envVarVal = include "fl.valueQuoted" (list $ $relativeScope $envVarVal) }}
     {{- if ne $envVarVal "" }}
 - name: {{ $envVarName | quote }}
   value: {{ $envVarVal }}

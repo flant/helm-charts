@@ -15,11 +15,11 @@
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
+<br/>
 
-### "fl.value" function
 
 Wrapper for all the Values that you use in your chart.
-<br/>
+<br/><br/>
 
 What is this function for:
 
@@ -131,7 +131,7 @@ Usage is the same as with the ["fl.value" function](#function-fl.value).
 
 A way to keep your `values.yaml` DRY. Move common pieces of your Values in
 `$.Values.global._includes` and include them back with `_include`.
-<br/>
+<br/><br/>
 
 Usage:
 ```yaml
@@ -227,14 +227,15 @@ list:
 ### "fl.isFalse" function
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
 ["fl.isTrue" function](#function-fl.istrue).
-<br/>
+<br/><br/>
 
 ## Templates
+<br/>
 
 ### "fl.generateLabels" template
 
 Automatically generate basic set of labels.
-<br/>
+<br/><br/>
 
 Usage:
 ```yaml
@@ -265,7 +266,7 @@ list:
 ### "fl.generateContainerImageQuoted" template
 
 Generate container image name and tag. Supports generating Werf signature-based image/tag.
-<br/>
+<br/><br/>
 
 Generate static image name and tag:
 ```yaml
@@ -315,7 +316,7 @@ list:
 ### "fl.generateContainerEnvVars" template
 
 Generate container environment variables list.
-<br/>
+<br/><br/>
 
 Usage:
 ```yaml

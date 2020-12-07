@@ -1,24 +1,26 @@
+## Contents
+
 [Functions](#functions)
-  * [fl.value](#function-fl.value)
-  * [fl.valueQuoted](#function-fl.valuequoted)
-  * [fl.valueSingleQuoted](#function-fl.valuesinglequoted)
-  * [fl.expandIncludesInValues](#function-fl.expandincludesinvalues)
-  * [fl.isTrue](#function-fl.istrue)
-  * [fl.isFalse](#function-fl.isfalse)
+  * [fl.value](#flvalue-function)
+  * [fl.valueQuoted](#flvaluequoted-function)
+  * [fl.valueSingleQuoted](#flvaluesinglequoted-function)
+  * [fl.expandIncludesInValues](#flexpandincludesinvalues-function)
+  * [fl.isTrue](#flistrue-function)
+  * [fl.isFalse](#flisfalse-function)
 
 [Templates](#templates)
-  * [fl.generateLabels](#template-fl.generatelabels)
-  * [fl.generateContainerImageQuoted](#template-fl.generatecontainerimagequoted)
-  * [fl.generateContainerEnvVars](#template-fl.generatecontainerenvvars)
-  * [fl.generateContainerResources](#template-fl.generatecontainerresources)
+  * [fl.generateLabels](#flgeneratelabels-template)
+  * [fl.generateContainerImageQuoted](#flgeneratecontainerimagequoted-template)
+  * [fl.generateContainerEnvVars](#flgeneratecontainerenvvars-template)
+  * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
 
-### Function fl.value
+### "fl.value" function
 
 Wrapper for all the Values that you use in your chart.
-
-What's this function for:
+\
+What is this function for:
 
 1. Does the typical `pluck $.Values.global.env ... | default ...` for you.
 Also, `_default` key in `values.yaml` can be omitted if no other envs specified
@@ -64,7 +66,7 @@ No prefix/suffix will be added if invocation of this function results in nothing
     —————————————————————————————————————
     key1: {{ include "fl.value" (list $ . $.Values.memory (dict "suffix" "Mi") }}
     ```
-
+\
 General usage:
 ```yaml
 .helm/values.yaml:
@@ -76,8 +78,8 @@ key1:
 —————————————————————————————————————
 key1: {{ include "fl.value" (list $ . $.Values.key1) }}
 ```
-
-WARNING: maps and lists should only be passed as a string, not as a map/list.
+\
+**WARNING**: maps and lists should only be passed as a string, not as a map/list.
 Also only full YAML form of maps/lists is allowed, short JSON form (`[]/{}`) is not supported yet.
 I.e. instead of this:
 ```yaml
@@ -96,7 +98,7 @@ map: | # << note this
 list: |
 - key1
 ```
-
+\
 Arguments:
 ```yaml
 list:
@@ -107,22 +109,22 @@ list:
     prefix (optinal): add prefix to the result
     suffix (optional): add suffix to the result
 ```
-
-### Function fl.valueQuoted
+\
+### "fl.valueQuoted" function
 
 Invokes "fl.value" function and if there is a result, then quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-
-### Function fl.valueSingleQuoted
+\
+### "fl.valueSingleQuoted" function
 
 Invokes "fl.value" function and if there is a result, then single quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-
-### Function fl.expandIncludesInValues
+\
+### "fl.expandIncludesInValues" function
 
 A way to keep your `values.yaml` DRY. Move common pieces of your Values in
 `$.Values.global._includes` and include them back with `_include`.
-
+\
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -149,7 +151,7 @@ Results in:
 key1: val1
 key2: val2
 ```
-
+\
 Features:
 1. Multiple includes in `_include` directive allowed. They will be
 merged one into another, and every next include in `_include` list
@@ -178,18 +180,18 @@ as it is in your `values.yaml`.
 
 8. Use `null`, `""`, `[]`, `{}` or similar to override with "null" values defined in previous
 includes, basically canceling them.
-
+\
 Arguments:
 ```yaml
 list:
   0: global scope
   1: location (expand includes recursively starting here)
 ```
-
-### Function fl.isTrue
+\
+### "fl.isTrue" function
 
 Check whether boolean Value is true.
-
+\
 1. This function uses "fl.value" function under the hood, which safely
 handles "false" boolean value.
 2. Meant to be used in if-statements:
@@ -200,7 +202,7 @@ handles "false" boolean value.
     ```yaml
     {{- ternary true false (include "fl.isTrue" (list $ . $.Values.testBoolean) | not | empty) }}
     ```
-
+\
 Arguments:
 ```yaml
 list:
@@ -208,17 +210,17 @@ list:
   1: current relative scope
   2: boolean value that's going to be checked
 ```
-
-### Function fl.isFalse
+\
+### "fl.isFalse" function
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
 ["fl.isTrue" function](#function-fl.istrue).
-
+\
 ## Templates
 
-### Template fl.generateLabels
+### "fl.generateLabels" template
 
 Automatically generate basic set of labels.
-
+\
 Usage:
 ```yaml
 .helm/templates/test.yaml:
@@ -234,7 +236,7 @@ Results in:
     chart: chartname
     repo: gitlabrepogroup-repo
 ```
-
+\
 Arguments:
 ```yaml
 list:
@@ -242,11 +244,11 @@ list:
   1: current relative scope
   2: app name or some other unique identifier, used for generating unique labels
 ```
-
-### Template fl.generateContainerImageQuoted
+\
+### "fl.generateContainerImageQuoted" template
 
 Generate container image name and tag. Supports generating Werf signature-based image/tag.
-
+\
 Generate static image name and tag:
 ```yaml
 .helm/values.yaml:
@@ -263,7 +265,7 @@ Results in:
 ```yaml
   image: "alpine:10"
 ```
-
+\
 Generate dynamic Werf signature-based image name and tag:
 ```yaml
 .helm/values.yaml:
@@ -280,7 +282,7 @@ Results in:
 ```yaml
   image: example.org/repogroup/repo/backend:dfe383f700b1fb09f9881f330d22a9637d2b154ae3cb91b9cd3658f7
 ```
-
+\
 Arguments:
 ```yaml
 list:
@@ -288,11 +290,11 @@ list:
   1: current relative scope
   2: map with the image configuration (see Usage)
 ```
-
-### Template fl.generateContainerEnvVars
+\
+### "fl.generateContainerEnvVars" template
 
 Generate container environment variables list.
-
+\
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -319,7 +321,7 @@ Results in:
 
 NOTE: no way to pass empty string as a value, it would cause the variable
 not to be rendered at all (TODO: "nil" might work?)
-
+\
 Arguments:
 ```yaml
 list:
@@ -327,11 +329,11 @@ list:
   1: current relative scope
   2: map with env vars (see Usage)
 ```
-
-### Template fl.generateContainerResources
+\
+### "fl.generateContainerResources" template
 
 Generate container resources block.
-
+\
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -356,7 +358,7 @@ Results in:
       cpu: 100
       memory: 200
 ```
-
+\
 Arguments:
 ```yaml
 list:

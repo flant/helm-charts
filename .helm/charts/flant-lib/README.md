@@ -17,6 +17,7 @@
 ## Functions
 <br/>
 
+### "fl.value" function
 
 Wrapper for all the Values that you use in your chart.
 <br/><br/>

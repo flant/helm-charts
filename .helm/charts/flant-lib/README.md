@@ -15,7 +15,6 @@
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
-<br/>
 
 ### "fl.value" function
 
@@ -231,7 +230,6 @@ Same as "fl.isTrue" function, but the result is reversed. Usage is the same as w
 <br/><br/>
 
 ## Templates
-<br/>
 
 ### "fl.generateLabels" template
 

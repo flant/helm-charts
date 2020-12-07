@@ -19,7 +19,8 @@
 ### "fl.value" function
 
 Wrapper for all the Values that you use in your chart.
-\
+<br/>
+
 What is this function for:
 
 1. Does the typical `pluck $.Values.global.env ... | default ...` for you.
@@ -66,7 +67,8 @@ No prefix/suffix will be added if invocation of this function results in nothing
     —————————————————————————————————————
     key1: {{ include "fl.value" (list $ . $.Values.memory (dict "suffix" "Mi") }}
     ```
-\
+<br/>
+
 General usage:
 ```yaml
 .helm/values.yaml:
@@ -78,7 +80,8 @@ key1:
 —————————————————————————————————————
 key1: {{ include "fl.value" (list $ . $.Values.key1) }}
 ```
-\
+<br/>
+
 **WARNING**: maps and lists should only be passed as a string, not as a map/list.
 Also only full YAML form of maps/lists is allowed, short JSON form (`[]/{}`) is not supported yet.
 I.e. instead of this:
@@ -98,7 +101,8 @@ map: | # << note this
 list: |
 - key1
 ```
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
@@ -109,22 +113,26 @@ list:
     prefix (optinal): add prefix to the result
     suffix (optional): add suffix to the result
 ```
-\
+<br/>
+
 ### "fl.valueQuoted" function
 
 Invokes "fl.value" function and if there is a result, then quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-\
+<br/>
+
 ### "fl.valueSingleQuoted" function
 
 Invokes "fl.value" function and if there is a result, then single quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-\
+<br/>
+
 ### "fl.expandIncludesInValues" function
 
 A way to keep your `values.yaml` DRY. Move common pieces of your Values in
 `$.Values.global._includes` and include them back with `_include`.
-\
+<br/>
+
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -151,7 +159,8 @@ Results in:
 key1: val1
 key2: val2
 ```
-\
+<br/>
+
 Features:
 1. Multiple includes in `_include` directive allowed. They will be
 merged one into another, and every next include in `_include` list
@@ -180,18 +189,20 @@ as it is in your `values.yaml`.
 
 8. Use `null`, `""`, `[]`, `{}` or similar to override with "null" values defined in previous
 includes, basically canceling them.
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
   0: global scope
   1: location (expand includes recursively starting here)
 ```
-\
+<br/>
+
 ### "fl.isTrue" function
 
 Check whether boolean Value is true.
-\
+
 1. This function uses "fl.value" function under the hood, which safely
 handles "false" boolean value.
 2. Meant to be used in if-statements:
@@ -202,7 +213,8 @@ handles "false" boolean value.
     ```yaml
     {{- ternary true false (include "fl.isTrue" (list $ . $.Values.testBoolean) | not | empty) }}
     ```
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
@@ -210,17 +222,20 @@ list:
   1: current relative scope
   2: boolean value that's going to be checked
 ```
-\
+<br/>
+
 ### "fl.isFalse" function
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
 ["fl.isTrue" function](#function-fl.istrue).
-\
+<br/>
+
 ## Templates
 
 ### "fl.generateLabels" template
 
 Automatically generate basic set of labels.
-\
+<br/>
+
 Usage:
 ```yaml
 .helm/templates/test.yaml:
@@ -236,7 +251,8 @@ Results in:
     chart: chartname
     repo: gitlabrepogroup-repo
 ```
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
@@ -244,11 +260,13 @@ list:
   1: current relative scope
   2: app name or some other unique identifier, used for generating unique labels
 ```
-\
+<br/>
+
 ### "fl.generateContainerImageQuoted" template
 
 Generate container image name and tag. Supports generating Werf signature-based image/tag.
-\
+<br/>
+
 Generate static image name and tag:
 ```yaml
 .helm/values.yaml:
@@ -265,7 +283,8 @@ Results in:
 ```yaml
   image: "alpine:10"
 ```
-\
+<br/>
+
 Generate dynamic Werf signature-based image name and tag:
 ```yaml
 .helm/values.yaml:
@@ -282,7 +301,8 @@ Results in:
 ```yaml
   image: example.org/repogroup/repo/backend:dfe383f700b1fb09f9881f330d22a9637d2b154ae3cb91b9cd3658f7
 ```
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
@@ -290,11 +310,13 @@ list:
   1: current relative scope
   2: map with the image configuration (see Usage)
 ```
-\
+<br/>
+
 ### "fl.generateContainerEnvVars" template
 
 Generate container environment variables list.
-\
+<br/>
+
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -321,7 +343,8 @@ Results in:
 
 NOTE: no way to pass empty string as a value, it would cause the variable
 not to be rendered at all (TODO: "nil" might work?)
-\
+<br/>
+
 Arguments:
 ```yaml
 list:
@@ -329,11 +352,13 @@ list:
   1: current relative scope
   2: map with env vars (see Usage)
 ```
-\
+<br/>
+
 ### "fl.generateContainerResources" template
 
 Generate container resources block.
-\
+<br/>
+
 Usage:
 ```yaml
 .helm/values.yaml:
@@ -358,7 +383,8 @@ Results in:
       cpu: 100
       memory: 200
 ```
-\
+<br/>
+
 Arguments:
 ```yaml
 list:

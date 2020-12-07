@@ -119,13 +119,13 @@ list:
 
 Invokes "fl.value" function and if there is a result, then quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-<br/>
+<br/><br/>
 
 ### "fl.valueSingleQuoted" function
 
 Invokes "fl.value" function and if there is a result, then single quotes it, otherwise no quotes.
 Usage is the same as with the ["fl.value" function](#function-fl.value).
-<br/>
+<br/><br/>
 
 ### "fl.expandIncludesInValues" function
 

@@ -12,6 +12,7 @@
   * [fl.generateLabels](#flgeneratelabels-template)
   * [fl.generateContainerImageQuoted](#flgeneratecontainerimagequoted-template)
   * [fl.generateContainerEnvVars](#flgeneratecontainerenvvars-template)
+  * [fl.generateConfigMapEnvVars](#flgenerateconfigmapenvvars-template)
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
@@ -339,6 +340,46 @@ Results in:
     value: "1"
   - name: ENV_VAR_2
     value: "2"
+```
+
+NOTE: no way to pass empty string as a value, it would cause the variable
+not to be rendered at all (TODO: "nil" might work?)
+<br/>
+
+Arguments:
+```yaml
+list:
+  0: global scope
+  1: current relative scope
+  2: map with env vars (see Usage)
+```
+<br/>
+
+### "fl.generateConfigMapEnvVars" template
+
+Generate ConfigMap data entries to be used as environment variables.
+<br/><br/>
+
+Usage:
+```yaml
+.helm/values.yaml:
+—————————————————————————————————————
+envs:
+  ENV_VAR_1: 1
+  ENV_VAR_2: 2
+  ENV_VAR_3: null
+—————————————————————————————————————
+.helm/templates/test.yaml:
+—————————————————————————————————————
+kind: ConfigMap
+data: {{ include "fl.generateConfigMapEnvVars" (list $ . .envs) | nindent 2 }}
+```
+Results in:
+```yaml
+kind: ConfigMap
+data:
+  ENV_VAR_1: "1"
+  ENV_VAR_2: "2"
 ```
 
 NOTE: no way to pass empty string as a value, it would cause the variable

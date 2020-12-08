@@ -3,9 +3,14 @@
 {{- range list "" }}
 
 ---
-kind: TestEnvs
-testEnvs:
+kind: TestContainerEnvs
+testContainerEnvs:
   env: {{ include "fl.generateContainerEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
+
+---
+kind: TestConfigMapEnvs
+testConfigMapEnvs:
+  env: {{ include "fl.generateConfigMapEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
 
 ---
 kind: TestInclude

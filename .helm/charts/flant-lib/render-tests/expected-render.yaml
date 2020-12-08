@@ -1,5 +1,14 @@
-kind: TestEnvs
-testEnvs:
+kind: TestConfigMapEnvs
+testConfigMapEnvs:
+  env:
+    BOOLEAN_FALSE: 'false'
+    BOOLEAN_TRUE: 'true'
+    NIL_TYPE: nil
+    NUMBER: '10'
+    STRING: string
+---
+kind: TestContainerEnvs
+testContainerEnvs:
   env:
   - name: BOOLEAN_FALSE
     value: 'false'

@@ -169,7 +169,7 @@ will override values from the previous one.
 
 2. After all the includes in `_include` directive merged one into
 another, the result is expanded in place, i.e. the result is merged
-one level above `_include` directive.
+into where the `_include` directive is defined.
 
 3. Recursive includes allowed, i.e. you can reference other includes
 in your include. No depth limit (except limitations on nested includes
@@ -188,8 +188,8 @@ even `secret-values.yaml`.
 7. No restrictions on where `_include` directive can be used, as long
 as it is in your `values.yaml`.
 
-8. Use `null`, `""`, `[]`, `{}` or similar to override with "null" values defined in previous
-includes, basically canceling them.
+8. Use `null`, `""`, `[]`, `{}` or similar to override values defined in previous
+includes with "null", basically canceling them.
 <br/>
 
 Arguments:
@@ -278,7 +278,7 @@ image:
 —————————————————————————————————————
 .helm/templates/test.yaml:
 —————————————————————————————————————
-  image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
+  image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) }}
 ```
 Results in:
 ```yaml
@@ -296,7 +296,7 @@ image:
 —————————————————————————————————————
 .helm/templates/test.yaml:
 —————————————————————————————————————
-  image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) | nindent 4 }}
+  image: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image) }}
 ```
 Results in:
 ```yaml

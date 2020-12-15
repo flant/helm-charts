@@ -7,6 +7,8 @@
   * [fl.expandIncludesInValues](#flexpandincludesinvalues-function)
   * [fl.isTrue](#flistrue-function)
   * [fl.isFalse](#flisfalse-function)
+  * [fl.formatStringAsDNSSubdomain](#flformatstringasdnssubdomain)
+  * [fl.formatStringAsDNSLabel](#flformatstringasdnslabel)
 
 [Templates](#templates)
   * [fl.generateLabels](#flgeneratelabels-template)
@@ -226,8 +228,33 @@ list:
 <br/>
 
 ### "fl.isFalse" function
+
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
 ["fl.isTrue" function](#function-fl.istrue).
+<br/>
+
+### "fl.formatStringAsDNSSubdomain" function
+
+Format the string as a DNS subdomain name as defined in RFC 1123. Usually to be able to use the string
+as a name for some Kubernetes resources. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names
+<br/>
+
+Arguments:
+```yaml
+string: string to convert
+```
+<br/>
+
+### "fl.formatStringAsDNSLabel" function
+
+Format the string as a DNS label name as defined in RFC 1123. Usually to be able to use the string
+as a name for some Kubernetes resources. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names
+<br/>
+
+Arguments:
+```yaml
+string: string to convert
+```
 <br/><br/>
 
 ## Templates

@@ -21,6 +21,10 @@ testContainerEnvs:
   - name: STRING
     value: string
 ---
+kind: TestFormatString
+testFormatStringAsDNSSubdomain: lower-127389-upper-upper-lower-filler-filler.fillerfillerfillerfillerfiller
+testFormatStringAsDNSLabel: lower-127389-upper-upper-lower-filler-filler-fillerfillerfiller
+---
 kind: TestImage
 testImage:
   onlyStatic: test:staticImageTag

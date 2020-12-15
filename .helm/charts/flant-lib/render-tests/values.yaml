@@ -126,3 +126,5 @@ flant-lib:
       name: "test"
       staticTag: "staticImageTag"
       generateSignatureBasedTag: true
+
+  brokenName: "lower _ 127389 - UPPER / Upper \\ lower : filler , filler . fillerfillerfillerfillerfiller"

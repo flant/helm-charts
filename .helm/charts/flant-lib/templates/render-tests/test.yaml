@@ -98,5 +98,11 @@ testImage:
   onlyStatic: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.onlyStatic) }}
   onlySignatureBased: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.onlySignatureBased) }}
   both: {{ include "fl.generateContainerImageQuoted" (list $ . $.Values.image.both) }}
+
+---
+kind: TestFormatString
+testFormatStringAsDNSSubdomain: {{ $.Values.brokenName | include "fl.formatStringAsDNSSubdomain" | quote }}
+testFormatStringAsDNSLabel: {{ $.Values.brokenName | include "fl.formatStringAsDNSLabel" | quote }}
+
 {{- end }}
 {{- end }}

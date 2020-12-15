@@ -7,8 +7,8 @@
   * [fl.expandIncludesInValues](#flexpandincludesinvalues-function)
   * [fl.isTrue](#flistrue-function)
   * [fl.isFalse](#flisfalse-function)
-  * [fl.formatStringAsDNSSubdomain](#flformatstringasdnssubdomain)
-  * [fl.formatStringAsDNSLabel](#flformatstringasdnslabel)
+  * [fl.formatStringAsDNSSubdomain](#flformatstringasdnssubdomain-function)
+  * [fl.formatStringAsDNSLabel](#flformatstringasdnslabel-function)
 
 [Templates](#templates)
   * [fl.generateLabels](#flgeneratelabels-template)
@@ -231,7 +231,7 @@ list:
 
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
 ["fl.isTrue" function](#function-fl.istrue).
-<br/>
+<br/><br/>
 
 ### "fl.formatStringAsDNSSubdomain" function
 
@@ -243,7 +243,7 @@ Arguments:
 ```yaml
 string: string to convert
 ```
-<br/>
+<br/><br/>
 
 ### "fl.formatStringAsDNSLabel" function
 

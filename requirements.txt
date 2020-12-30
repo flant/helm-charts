@@ -1,1 +1,0 @@
-werf-chart-repo-doit-tasks~=1.0

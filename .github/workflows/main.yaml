@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    shell: "bash -l -eo pipefail {0}"
+    shell: "bash -lx -eo pipefail {0}"
 
 jobs:
   tests:
@@ -27,14 +27,13 @@ jobs:
           echo "source <(multiwerf use $WERF_VERSION)" >> ~/.bash_profile
       - name: Werf lint/render charts
         run: |
-          while read chart_name; do
-            for env in "test" "prod"; do
-              set -x
-              werf helm lint --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
-              werf helm render --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
-              set +x
-            done
-          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \;)
+          for werf_command in lint render; do
+            while read chart_name; do
+              for env in test prod; do
+                werf helm $werf_command --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
+              done
+            done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \;)
+          done
   publish-charts:
     runs-on: "ubuntu-18.04"
     if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'flant/helm-charts'"

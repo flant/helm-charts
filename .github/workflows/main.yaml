@@ -4,7 +4,7 @@ env:
   DOIT_WERF_VERSION: "1.1 ea"
   DOIT_CHARTMUSEUM_BASIC_AUTH_USER: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_USER }}"
   DOIT_CHARTMUSEUM_BASIC_AUTH_PASS: "${{ secrets.CHARTMUSEUM_BASIC_AUTH_PASS }}"
-  DOIT_CHARTMUSEUM_URL: "https://charts.flant.com/"
+  DOIT_CHARTMUSEUM_URL: "https://charts.flant.com/bravo/libs/"
 
 on:
   push:

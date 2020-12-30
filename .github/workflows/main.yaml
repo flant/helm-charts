@@ -2,7 +2,7 @@ name: main
 
 env:
   WERF_VERSION: "1.1 ea"
-  CHARTMUSEUM_URL: "https://charts.flant.com/api/github/flant/helm-charts"
+  CHARTMUSEUM_URL: "https://charts.flant.com/api/common/github/charts"
 
 on:
   push:

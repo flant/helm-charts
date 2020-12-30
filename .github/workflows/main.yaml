@@ -2,7 +2,7 @@ name: main
 
 env:
   WERF_VERSION: "1.1 ea"
-  CHARTMUSEUM_URL: "https://charts.flant.com/github/flant/helm-charts"
+  CHARTMUSEUM_URL: "https://charts.flant.com/api/github/flant/helm-charts"
 
 on:
   push:
@@ -44,7 +44,6 @@ jobs:
       - name: Package werf charts
         run: |
           mkdir -p .packages
-          helm package .helm/charts/flant-lib -d .packages
           helm package .helm/charts/flant-lib -d .packages
       - name: Publish packaged werf charts
         run: |

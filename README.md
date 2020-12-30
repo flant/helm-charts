@@ -1,7 +1,7 @@
-## Add new chart
+## Adding a new chart
 
-1. Place the chart in `.helm/charts/<new chart name>`
-1. Add dependency for it:
+1. Place a chart in `.helm/charts/<new chart name>`
+1. Add a dependency for it:
     ```yaml
     .helm/requirements.yaml:
     ===============================
@@ -18,4 +18,4 @@
 
 ## Charts publishing
 
-Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/
+Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/api/common/github/charts

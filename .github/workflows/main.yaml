@@ -18,9 +18,6 @@ defaults:
 jobs:
   tests:
     runs-on: "ubuntu-18.04"
-    strategy:
-      matrix:
-        werf_commands: ["lint", "render"]
     steps:
       - uses: "actions/checkout@v2"
       - name: Install dependencies
@@ -35,12 +32,13 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           echo "$HOME/bin" >> $GITHUB_PATH
           echo "source <(multiwerf use $WERF_VERSION)" >> ~/.bash_profile
-      - name: Werf ${{ matrix.werf_commands }} charts
+      - name: Werf lint/render charts
         run: |
           while read chart_name; do
             for env in "test" "prod"; do
               set -x
-              werf helm ${{ matrix.werf_commands }} --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
+              werf helm lint --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
+              werf helm render --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
               set +x
             done
           done < <(find .helm/charts -type d -mindepth 1 -maxdepth 1 -exec sh -c 'basename "$1"' sh '{}' \;)

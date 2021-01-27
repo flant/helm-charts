@@ -1,0 +1,79 @@
+{{- if .Values.ingress.enable }}
+apiVersion: {{ template "Ingress.apiVersion" $ }}
+kind: Ingress
+metadata:
+  name: loghouse
+  namespace: {{ .Release.Namespace }}
+  annotations:
+{{- if .Values.ingress.loghouse.ingressClass }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.loghouse.ingressClass | quote }}
+{{- else }}
+    kubernetes.io/ingress.class: "nginx"
+{{- end }}
+{{- if .Values.ingress.loghouse.annotations }}
+{{- range $key, $value := .Values.ingress.loghouse.annotations }}
+    {{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- else }}
+{{- if .Values.ingress.enable_https }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+{{- else }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+{{- end }}
+{{- end }}
+spec:
+  rules:
+  - host: {{ .Values.ingress.loghouse.host }}
+    http:
+      paths:
+      - path: {{ .Values.ingress.loghouse.path }}
+{{- if semverCompare ">=1.19" .Capabilities.KubeVersion.GitVersion }}
+        pathType: ImplementationSpecific
+{{- end }}
+        backend:
+{{- if semverCompare ">=1.19" .Capabilities.KubeVersion.GitVersion }}
+          service:
+            name: loghouse
+            port:
+              name: http
+{{- else }}
+          serviceName: loghouse
+          servicePort: http
+{{- end }}
+{{- if .Values.ingress.enable_https }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.loghouse.host }}
+    secretName: {{ .Values.ingress.loghouse.tls_secret_name}}
+{{- if .Values.ingress.loghouse.tls_issuer }}
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ .Values.ingress.loghouse.tls_secret_name}}
+spec:
+  acme:
+    config:
+    - domains:
+      - {{ .Values.ingress.loghouse.host }} 
+      http01:
+{{- if .Values.ingress.loghouse.ingressClass }}
+        ingressClass: {{ .Values.ingress.loghouse.ingressClass | quote }}
+{{- else }}
+        ingressClass: "nginx"
+{{- end }}
+  dnsNames:
+  - {{ .Values.ingress.loghouse.host }} 
+  issuerRef:
+{{- if .Values.ingress.loghouse.tls_issuer_kind }}
+    kind: {{ .Values.ingress.loghouse.tls_issuer_kind }}
+{{- else }}
+    kind: ClusterIssuer
+{{- end }}
+    name:  {{ .Values.ingress.loghouse.tls_issuer }}
+  secretName: {{ .Values.ingress.loghouse.tls_secret_name }}
+{{- end }}
+{{- end }}
+{{- end }}

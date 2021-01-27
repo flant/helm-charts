@@ -1,0 +1,23 @@
+apiVersion: v1
+name: loghouse
+# helm package override version on release. Do not change it in master.
+version: 0.3.1
+description: Loghouse (Fluentd, Clickhouse, Tabix, Loghouse) for collect and prepare
+             logs for Kubernetes cluster.
+keywords:
+- fluentd
+- clickhouse
+- tabix
+- loghouse
+- kubernetes
+home: https://github.com/flant/loghouse
+icon: https://cdn.rawgit.com/flant/loghouse/master/docs/logo.png
+maintainers:
+- name: Dmitry Stolyarov
+  email: dmitry.stolyarov@flant.com
+- name: Andrey Sidorov
+  email: andrey.sidorov@flant.com
+- name: Sergey Gnuskov
+  email: sergey.gnuskov@flant.com
+- name: Ivan Mikheykin
+  email: ivan.mikheykin@flant.com

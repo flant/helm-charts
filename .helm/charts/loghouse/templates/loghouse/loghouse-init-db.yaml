@@ -1,0 +1,32 @@
+{{- if .Values.doDbDeploy }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-init-db
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  activeDeadlineSeconds: 600
+  template:
+    metadata:
+      name: {{ .Chart.Name }}-init-db
+    spec:
+      restartPolicy: OnFailure
+{{- if .Values.loghouse.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.loghouse.imagePullSecrets | indent 6 }}
+{{- end }}
+      initContainers:
+      - name: wait-clickhouse
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z clickhouse 8123; do sleep 1; done' ]
+      containers:
+      - name: init
+        image: {{ .Values.fluentd.image }}:{{ template "app.version" $ }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command: ['/bin/bash', '-l', '-c', 'clickhouse-client --host=${CLICKHOUSE_SERVER} --port=${CLICKHOUSE_PORT} --user=${CLICKHOUSE_USER} --password=${CLICKHOUSE_PASSWORD} --query="CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DATABASE};"']
+{{ include "loghouse_envs" . | indent 8 }}
+{{- end }}

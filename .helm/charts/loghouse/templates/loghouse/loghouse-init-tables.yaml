@@ -1,0 +1,32 @@
+{{- if .Values.doDbDeploy }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-init-tables
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  activeDeadlineSeconds: 600
+  template:
+    metadata:
+      name: {{ .Chart.Name }}-init-tables
+    spec:
+      restartPolicy: OnFailure
+{{- if .Values.loghouse.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.loghouse.imagePullSecrets | indent 6 }}
+{{- end }}
+      initContainers:
+      - name: wait-clickhouse
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z clickhouse 8123; do sleep 1; done' ]
+      containers:
+      - name: init-tables
+        image: {{ .Values.loghouse.image }}:{{ template "app.version" $ }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command: ['/bin/bash', '-l', '-c', 'rake create_logs_tables']
+{{ include "loghouse_envs" . | indent 8 }}
+{{- end }}

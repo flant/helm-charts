@@ -1,0 +1,16 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: loghouse-user-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+data:
+  user.conf: |-
+  {{- range $index, $element := .Values.loghouse.users }}
+    {{ $index }}:
+    {{- range $element }}
+      - {{ . | quote }}
+    {{- end }}
+  {{- end }}

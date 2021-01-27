@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loghouse
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      component: loghouse
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: loghouse
+    spec:
+      serviceAccountName: loghouse
+      initContainers:
+      - name: wait-clickhouse
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z clickhouse 8123; do sleep 1; done' ]
+      containers:
+      - name: frontend
+        image: nginx:alpine
+        command: ["/usr/sbin/nginx"]
+        ports:
+        - name: http
+          containerPort: 80
+        env:
+        - name: KUBERNETES_DEPLOYED
+          value: {{ now | quote }}
+        volumeMounts:
+        - name: basic-auth
+          mountPath: "/nginx/passwd"
+          readOnly: true
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        {{ include "includeByName" (dict "root" .Values.loghouse.frontend "name" "resources") | indent 8 | trim }}
+      - name: backend
+        image: {{ .Values.loghouse.image }}:{{ template "app.version" $ }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command: ["bundle", "exec", "puma"]
+        ports:
+        - name: http2
+          containerPort: 9292
+{{ include "loghouse_envs" . | indent 8 }}
+        volumeMounts:
+        - name: user-config
+          mountPath: /config
+        livenessProbe:
+          tcpSocket:
+            port: 9292
+        readinessProbe:
+          tcpSocket:
+            port: 9292
+        {{ include "includeByName" (dict "root" .Values.loghouse "name" "resources") | indent 8 | trim }}
+{{- if .Values.loghouse.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.loghouse.imagePullSecrets | indent 6 }}
+{{- end }}
+      volumes:
+      - name: user-config
+        configMap:
+          name: loghouse-user-config
+      - name: basic-auth
+        secret:
+          secretName: basic-auth
+      - name: nginx-conf
+        configMap:
+          name: loghouse-nginx-conf
+      {{ include "includeByName" (dict "root" .Values.clickhouse "name" "nodeSelector") | indent 6 | trim }}
+      {{ include "includeByName" (dict "root" .Values.clickhouse "name" "tolerations") | indent 6 | trim }}

@@ -1,0 +1,29 @@
+{{- $uniq_id := uuidv4 -}}
+{{- if .Values.doDbMigrate }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-migrate-tables-{{ $uniq_id }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  activeDeadlineSeconds: 3600
+  template:
+    metadata:
+      name: {{ .Chart.Name }}-migrate-tables
+    spec:
+      restartPolicy: OnFailure
+{{- if .Values.loghouse.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.loghouse.imagePullSecrets | indent 6 }}
+{{- end }}
+      initContainers:
+      - name: wait-clickhouse
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z clickhouse 8123; do sleep 1; done; sleep 120;' ]
+      containers:
+      - name: init
+        image: {{ .Values.fluentd.image }}:{{ template "app.version" $ }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command: ['/bin/bash', '/usr/local/bin/migrate-tables.sh']
+{{ include "loghouse_envs" . | indent 8 }}
+{{- end }}

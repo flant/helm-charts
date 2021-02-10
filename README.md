@@ -17,14 +17,14 @@ Now you can `helm install` the charts you need. Currently, we have the following
 
 To use these charts in your apps, you need to add the corresponding `.helm/requirements.yaml` file.
 
-For example, to use a common chart for a Ruby on Rails app, you'll need to put the following in its `requirements.yaml`:
+For example, to use a chart for the Loghouse, you'll need to put the following in its `requirements.yaml`:
 
 ```yaml
 dependencies:
-- name: rubyonrails
-  version: 1.0.0
+- name: loghouse
+  version: ~0.3
   repository: https://charts.flant.com/common/github
-  condition: rubyonrails.enabled
+  condition: loghouse.enabled
 ```
 
 # Adding a new chart

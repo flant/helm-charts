@@ -2,7 +2,7 @@
 
 Our main directory for public charts is `https://charts.flant.com/common/github`. To use it, you need to add this repository to your Helm (e.g. it will be called `flant_common_github`):
 
-```
+```yaml
 helm repo add flant_common_github https://charts.flant.com/common/github
 helm repo update
 ```
@@ -15,15 +15,15 @@ Now you can `helm install` the charts you need. Currently, we have the following
 
 # Using ChartMuseum in your apps
 
-To use these chars in your apps, you need to add the corresponding `.helm/requirements.yaml` file.
+To use these charts in your apps, you need to add the corresponding `.helm/requirements.yaml` file.
 
 For example, to use a common chart for a Ruby on Rails app, you'll need to put the following in its `requirements.yaml`:
 
-```
+```yaml
 dependencies:
 - name: rubyonrails
   version: 1.0.0
-  repository: https://charts.flant.com
+  repository: https://charts.flant.com/common/github
   condition: rubyonrails.enabled
 ```
 

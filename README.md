@@ -2,7 +2,7 @@
 
 Our main directory for public charts is `https://charts.flant.com/common/github`. To use it, you need to add this repository to your Helm (e.g. it will be called `flant_common_github`):
 
-```yaml
+```bash
 helm repo add flant_common_github https://charts.flant.com/common/github
 helm repo update
 ```

@@ -351,7 +351,9 @@ Usage:
 —————————————————————————————————————
 envs:
   ENV_VAR_1: 1
-  ENV_VAR_2: 2
+  # Results in empty environment variable
+  ENV_VAR_2: '""'
+  # No environment variable will be passed
   ENV_VAR_3: null
 —————————————————————————————————————
 .helm/templates/test.yaml:
@@ -366,11 +368,9 @@ Results in:
   - name: ENV_VAR_1
     value: "1"
   - name: ENV_VAR_2
-    value: "2"
+    value: '""'
 ```
 
-NOTE: no way to pass empty string as a value, it would cause the variable
-not to be rendered at all (TODO: "nil" might work?)
 <br/>
 
 Arguments:
@@ -393,7 +393,9 @@ Usage:
 —————————————————————————————————————
 envs:
   ENV_VAR_1: 1
-  ENV_VAR_2: 2
+  # Results in empty environment variable
+  ENV_VAR_2: '""'
+  # No environment variable will be passed
   ENV_VAR_3: null
 —————————————————————————————————————
 .helm/templates/test.yaml:
@@ -406,11 +408,9 @@ Results in:
 kind: ConfigMap
 data:
   ENV_VAR_1: "1"
-  ENV_VAR_2: "2"
+  ENV_VAR_2: '""'
 ```
 
-NOTE: no way to pass empty string as a value, it would cause the variable
-not to be rendered at all (TODO: "nil" might work?)
 <br/>
 
 Arguments:

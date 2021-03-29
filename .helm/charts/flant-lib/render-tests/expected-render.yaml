@@ -3,6 +3,7 @@ testConfigMapEnvs:
   env:
     BOOLEAN_FALSE: 'false'
     BOOLEAN_TRUE: 'true'
+    DEFINED_BUT_EMPTY: ''
     NIL_TYPE: nil
     NUMBER: '10'
     STRING: string
@@ -14,6 +15,8 @@ testContainerEnvs:
     value: 'false'
   - name: BOOLEAN_TRUE
     value: 'true'
+  - name: DEFINED_BUT_EMPTY
+    value: ''
   - name: NIL_TYPE
     value: nil
   - name: NUMBER

@@ -4,10 +4,13 @@
   {{- $envs := index . 2 }}
 
   {{- range $envVarName, $envVarVal := $envs }}
-    {{- $envVarVal = include "fl.valueQuoted" (list $ $relativeScope $envVarVal) }}
-    {{- if ne $envVarVal "" }}
+    {{- $envVarVal = include "fl.value" (list $ $relativeScope $envVarVal) }}
+    {{- if eq $envVarVal "___FL_THIS_ENV_VAR_WILL_BE_DEFINED_BUT_EMPTY___" }}
 - name: {{ $envVarName | quote }}
-  value: {{ $envVarVal }}
+  value: ""
+    {{- else if ne $envVarVal "" }}
+- name: {{ $envVarName | quote }}
+  value: {{ $envVarVal | quote }}
     {{- end }}
   {{- end }}
 {{- end }}

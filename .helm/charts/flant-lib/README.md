@@ -351,10 +351,12 @@ Usage:
 —————————————————————————————————————
 envs:
   ENV_VAR_1: 1
-  # Results in empty environment variable
-  ENV_VAR_2: '""'
   # No environment variable will be passed
-  ENV_VAR_3: null
+  ENV_VAR_2: null
+  # No environment variable will be passed
+  ENV_VAR_3: ""
+  # Special keyword can be used to define variable, but keep it empty
+  ENV_VAR_4: "___FL_THIS_ENV_VAR_WILL_BE_DEFINED_BUT_EMPTY___"
 —————————————————————————————————————
 .helm/templates/test.yaml:
 —————————————————————————————————————
@@ -367,8 +369,8 @@ Results in:
   env:
   - name: ENV_VAR_1
     value: "1"
-  - name: ENV_VAR_2
-    value: '""'
+  - name: ENV_VAR_4
+    value: ""
 ```
 
 <br/>
@@ -393,10 +395,12 @@ Usage:
 —————————————————————————————————————
 envs:
   ENV_VAR_1: 1
-  # Results in empty environment variable
-  ENV_VAR_2: '""'
   # No environment variable will be passed
-  ENV_VAR_3: null
+  ENV_VAR_2: null
+  # No environment variable will be passed
+  ENV_VAR_3: ""
+  # Special keyword can be used to define variable, but keep it empty
+  ENV_VAR_4: "___FL_THIS_ENV_VAR_WILL_BE_DEFINED_BUT_EMPTY___"
 —————————————————————————————————————
 .helm/templates/test.yaml:
 —————————————————————————————————————
@@ -408,7 +412,7 @@ Results in:
 kind: ConfigMap
 data:
   ENV_VAR_1: "1"
-  ENV_VAR_2: '""'
+  ENV_VAR_4: ""
 ```
 
 <br/>

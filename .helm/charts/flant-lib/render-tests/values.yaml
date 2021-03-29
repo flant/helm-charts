@@ -84,6 +84,7 @@ flant-lib:
     env:
       STRING: "string"
       EMPTY_STRING: ""
+      DEFINED_BUT_EMPTY: "___FL_THIS_ENV_VAR_WILL_BE_DEFINED_BUT_EMPTY___"
       BOOLEAN_FALSE: false
       BOOLEAN_TRUE: true
       NUMBER: 10

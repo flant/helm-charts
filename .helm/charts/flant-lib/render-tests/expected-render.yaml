@@ -92,8 +92,12 @@ testResources:
     requests:
       cpu: 200m
 ---
+kind: TestSecretData
+testSecretData:
+  secretConfig: a2V5OiB2YWwKa2V5MjogdmFsMgo=
+---
 kind: TestSecretEnvs
-testConfigMapEnvs:
+testSecretEnvs:
   env:
     BOOLEAN_FALSE: ZmFsc2U=
     BOOLEAN_TRUE: dHJ1ZQ==

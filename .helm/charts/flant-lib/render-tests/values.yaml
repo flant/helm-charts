@@ -91,6 +91,12 @@ flant-lib:
       NULL_TYPE: null
       NIL_TYPE: nil
 
+  secret:
+    secretConfig: |
+      key: val
+      key2: val2
+    emptyConfig: null
+
   resources:
     "none": null
     empty:

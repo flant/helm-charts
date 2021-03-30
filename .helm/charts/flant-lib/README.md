@@ -16,6 +16,7 @@
   * [fl.generateContainerEnvVars](#flgeneratecontainerenvvars-template)
   * [fl.generateConfigMapEnvVars](#flgenerateconfigmapenvvars-template)
   * [fl.generateSecretEnvVars](#flgeneratesecretenvvars-template)
+  * [fl.generateSecretData](#flgeneratesecretdata-template)
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
@@ -122,13 +123,13 @@ list:
 ### "fl.valueQuoted" function
 
 Invokes "fl.value" function and if there is a result, then quotes it, otherwise no quotes.
-Usage is the same as with the ["fl.value" function](#function-fl.value).
+Usage is the same as with the ["fl.value" function](#flvalue-function).
 <br/><br/>
 
 ### "fl.valueSingleQuoted" function
 
 Invokes "fl.value" function and if there is a result, then single quotes it, otherwise no quotes.
-Usage is the same as with the ["fl.value" function](#function-fl.value).
+Usage is the same as with the ["fl.value" function](#flvalue-function).
 <br/><br/>
 
 ### "fl.expandIncludesInValues" function
@@ -231,7 +232,7 @@ list:
 ### "fl.isFalse" function
 
 Same as "fl.isTrue" function, but the result is reversed. Usage is the same as with the
-["fl.isTrue" function](#function-fl.istrue).
+["fl.isTrue" function](#flistrue-function).
 <br/><br/>
 
 ### "fl.formatStringAsDNSSubdomain" function
@@ -468,6 +469,11 @@ list:
   2: map with env vars (see Usage)
 ```
 <br/>
+
+### "fl.generateSecretData" template
+
+Generate base64-encoded Secret data entries. Usage is the same as with the ["fl.generateSecretEnvVars" function](#flgeneratesecretenvvars-template).
+<br/><br/>
 
 ### "fl.generateContainerResources" template
 

@@ -13,8 +13,13 @@ testConfigMapEnvs:
   env: {{ include "fl.generateConfigMapEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
 
 ---
+kind: TestSecretData
+testSecretData:
+{{ include "fl.generateSecretData" (list $ . $.Values.secret) | nindent 2 }}
+
+---
 kind: TestSecretEnvs
-testConfigMapEnvs:
+testSecretEnvs:
   env: {{ include "fl.generateSecretEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
 
 ---

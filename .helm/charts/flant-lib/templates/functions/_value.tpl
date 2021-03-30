@@ -50,19 +50,3 @@
     {{- end }}
   {{- end }}
 {{- end }}
-
-
-{{- define "fl.valueQuoted" }}
-  {{- $result := include "fl.value" . }}
-  {{- if ne $result "" }}
-    {{- $result | quote }}
-  {{- end }}
-{{- end }}
-
-
-{{- define "fl.valueSingleQuoted" }}
-  {{- $result := include "fl.value" . }}
-  {{- if ne $result "" }}
-    {{- $result | squote }}
-  {{- end }}
-{{- end }}

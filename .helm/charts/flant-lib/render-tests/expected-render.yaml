@@ -92,6 +92,16 @@ testResources:
     requests:
       cpu: 200m
 ---
+kind: TestSecretEnvs
+testConfigMapEnvs:
+  env:
+    BOOLEAN_FALSE: ZmFsc2U=
+    BOOLEAN_TRUE: dHJ1ZQ==
+    DEFINED_BUT_EMPTY: ''
+    NIL_TYPE: bmls
+    NUMBER: MTA=
+    STRING: c3RyaW5n
+---
 kind: TestVal
 testValTypes:
   string: string

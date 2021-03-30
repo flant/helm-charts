@@ -15,6 +15,7 @@
   * [fl.generateContainerImageQuoted](#flgeneratecontainerimagequoted-template)
   * [fl.generateContainerEnvVars](#flgeneratecontainerenvvars-template)
   * [fl.generateConfigMapEnvVars](#flgenerateconfigmapenvvars-template)
+  * [fl.generateSecretEnvVars](#flgeneratesecretenvvars-template)
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
 
 ## Functions
@@ -412,6 +413,48 @@ Results in:
 kind: ConfigMap
 data:
   ENV_VAR_1: "1"
+  ENV_VAR_4: ""
+```
+
+<br/>
+
+Arguments:
+```yaml
+list:
+  0: global scope
+  1: current relative scope
+  2: map with env vars (see Usage)
+```
+<br/>
+
+### "fl.generateSecretEnvVars" template
+
+Generate base64-encoded Secret data entries to be used as environment variables.
+<br/><br/>
+
+Usage:
+```yaml
+.helm/values.yaml:
+—————————————————————————————————————
+envs:
+  ENV_VAR_1: 1
+  # No environment variable will be passed
+  ENV_VAR_2: null
+  # No environment variable will be passed
+  ENV_VAR_3: ""
+  # Special keyword can be used to define variable, but keep it empty
+  ENV_VAR_4: "___FL_THIS_ENV_VAR_WILL_BE_DEFINED_BUT_EMPTY___"
+—————————————————————————————————————
+.helm/templates/test.yaml:
+—————————————————————————————————————
+kind: ConfigMap
+data: {{ include "fl.generateConfigMapEnvVars" (list $ . .envs) | nindent 2 }}
+```
+Results in:
+```yaml
+kind: Secret
+data:
+  ENV_VAR_1: "MQ=="   # base64-encoded "1"
   ENV_VAR_4: ""
 ```
 

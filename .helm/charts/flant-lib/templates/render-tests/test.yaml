@@ -13,6 +13,11 @@ testConfigMapEnvs:
   env: {{ include "fl.generateConfigMapEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
 
 ---
+kind: TestSecretEnvs
+testConfigMapEnvs:
+  env: {{ include "fl.generateSecretEnvVars" (list $ . $.Values.envs.env) | nindent 4 }}
+
+---
 kind: TestInclude
 valuesDump: {{ $.Values.include | toYaml | nindent 4 }}
 

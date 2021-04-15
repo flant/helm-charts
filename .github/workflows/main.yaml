@@ -25,15 +25,40 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/werf/multiwerf/master/get.sh | bash
           echo "$HOME/bin" >> $GITHUB_PATH
           echo "source <(multiwerf use $WERF_VERSION)" >> ~/.bash_profile
-      - name: Werf lint/render charts
+      - name: Werf lint charts
         run: |
-          for werf_command in lint render; do
-            while read chart_name; do
-              for env in test prod; do
-                werf helm $werf_command --env "$env" --set "${chart_name}.enabled=true" --set "global.ci_url=example.org"
-              done
-            done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \;)
-          done
+          while read chart_name; do
+            for env in test prod; do
+              charts_to_disable="$(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \; | grep -v "${chart_name}")"
+              echo "[INFO] Werf linting chart '${chart_name}' for environment '${env}'"
+              command="
+                werf helm lint
+                  --env "$env"
+                  --set "global.ci_url=example.org"
+                  --set "${chart_name}.enabled=true"
+                  $(echo "$charts_to_disable" | xargs -i sh -c "echo '{}' | awk '{printf(\" --set %s.enabled=false\", \$1)}'")
+                "
+              echo "[INFO] Executing command: $(echo "${command}" | tr -d '\n' | tr -s ' ')"
+              eval $command
+            done
+          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \;)
+      - name: Werf render charts
+        run: |
+          while read chart_name; do
+            for env in test prod; do
+              charts_to_disable="$(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \; | grep -v "${chart_name}")"
+              echo "[INFO] Werf rendering chart '${chart_name}' for environment '${env}'"
+              command="
+                werf helm render
+                  --env "$env"
+                  --set "global.ci_url=example.org"
+                  --set "${chart_name}.enabled=true"
+                  $(echo "$charts_to_disable" | xargs -i sh -c "echo '{}' | awk '{printf(\" --set %s.enabled=false\", \$1)}'")
+                "
+              echo "[INFO] Executing command: $(echo "${command}" | tr -d '\n' | tr -s ' ')"
+              eval $command
+            done
+          done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d -exec sh -c 'basename "$0"' '{}' \;)
   publish-charts:
     runs-on: "ubuntu-18.04"
     if: "github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'flant/helm-charts'"

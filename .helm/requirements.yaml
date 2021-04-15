@@ -2,3 +2,9 @@ dependencies:
 - name: flant-lib
   condition: flant-lib.enabled
   version: ~1
+- name: loghouse
+  condition: loghouse.enabled
+  version: ~0
+- name: k8s-image-availability-exporter
+  condition: k8s-image-availability-exporter.enabled
+  version: ~0

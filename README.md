@@ -1,6 +1,6 @@
 ## Installing charts from this repo
 
-All the charts in this repo are available in our ChartMuseum located at https://charts.flant.com/common/github \
+All the charts in this repo are available in our ChartMuseum located at https://charts.flant.com/common/github. \
 To be able to use them, you will need to add our ChartMuseum to the Helm's list of repositories:
 
 ```bash
@@ -36,4 +36,4 @@ dependencies:
       version: ~<major version only, minor/patch not required>
     ```
 
-Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/common/github
+Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/common/github.

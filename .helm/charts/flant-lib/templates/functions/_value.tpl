@@ -42,9 +42,9 @@
         {{- if empty $relativeScope }}
           {{- $relativeScope = $ }}  {{- /* tpl fails if $relativeScope is empty */ -}}
         {{- end }}
-        {{- $result = tpl (print $prefix "{{ with $.RelativeScope }}" $valAsString "{{ end }}" $suffix) (merge (dict "RelativeScope" $relativeScope) $) }}
+        {{- $result = tpl (printf "%s{{ with $.RelativeScope }}%s{{ end }}%s" $prefix $valAsString $suffix) (merge (dict "RelativeScope" $relativeScope) $) }}
       {{- else }}
-        {{- $result = print $prefix $valAsString $suffix }}
+        {{- $result = printf "%s%s%s" $prefix $valAsString $suffix }}
       {{- end }}
       {{- if ne $result "" }}{{ $result }}{{ end }}
     {{- end }}

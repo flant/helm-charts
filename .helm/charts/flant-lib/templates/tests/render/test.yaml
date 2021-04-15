@@ -100,7 +100,10 @@ testValPrefixSuffix:
 ---
 kind: TestLabels
 testLabels:
-  labels: {{ include "fl.generateLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
+  labels:
+  {{ include "fl.generateLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
+  selectorLabels:
+  {{ include "fl.generateSelectorLabels" (list $ . $.Values.global.werf.name) | nindent 4 }}
 
 ---
 kind: TestImage
@@ -111,8 +114,10 @@ testImage:
 
 ---
 kind: TestFormatString
-testFormatStringAsDNSSubdomain: {{ $.Values.brokenName | include "fl.formatStringAsDNSSubdomain" | quote }}
-testFormatStringAsDNSLabel: {{ $.Values.brokenName | include "fl.formatStringAsDNSLabel" | quote }}
+testFormatLongStringAsDNSSubdomain: {{ $.Values.longBrokenName | include "fl.formatStringAsDNSSubdomain" | quote }}
+testFormatShortStringAsDNSSubdomain: {{ $.Values.shortBrokenName | include "fl.formatStringAsDNSSubdomain" | quote }}
+testFormatLongStringAsDNSLabel: {{ $.Values.longBrokenName | include "fl.formatStringAsDNSLabel" | quote }}
+testFormatShortStringAsDNSLabel: {{ $.Values.shortBrokenName | include "fl.formatStringAsDNSLabel" | quote }}
 
 {{- end }}
 {{- end }}

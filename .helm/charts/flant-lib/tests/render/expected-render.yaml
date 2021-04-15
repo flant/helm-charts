@@ -25,8 +25,10 @@ testContainerEnvs:
     value: string
 ---
 kind: TestFormatString
-testFormatStringAsDNSSubdomain: lower-127389-upper-upper-lower-filler-filler.fillerfillerfillerfillerfiller
-testFormatStringAsDNSLabel: lower-127389-upper-upper-lower-filler-filler-fillerfillerfiller
+testFormatLongStringAsDNSSubdomain: lower-127389-upper-upper-lower-filler-filler.fillerfillerfillerfillerfiller
+testFormatShortStringAsDNSSubdomain: lower-127389-
+testFormatLongStringAsDNSLabel: lower-127389-upper-upper-lower-filler-filler-fillerfi-208280726
+testFormatShortStringAsDNSLabel: lower-127389-
 ---
 kind: TestImage
 testImage:
@@ -72,6 +74,8 @@ testLabels:
     app: charts
     chart: flant-lib
     repo: repogroup-repo
+  selectorLabels:
+    app: charts
 ---
 kind: TestResources
 testResources:

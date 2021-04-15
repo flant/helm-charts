@@ -12,12 +12,16 @@
 
 [Templates](#templates)
   * [fl.generateLabels](#flgeneratelabels-template)
+  * [fl.generateSelectorLabels](#flgenerateselectorlabels-template)
   * [fl.generateContainerImageQuoted](#flgeneratecontainerimagequoted-template)
   * [fl.generateContainerEnvVars](#flgeneratecontainerenvvars-template)
   * [fl.generateConfigMapEnvVars](#flgenerateconfigmapenvvars-template)
   * [fl.generateSecretEnvVars](#flgeneratesecretenvvars-template)
   * [fl.generateSecretData](#flgeneratesecretdata-template)
   * [fl.generateContainerResources](#flgeneratecontainerresources-template)
+
+[Development](#development)
+  * [Tests](#tests)
 
 ## Functions
 
@@ -238,7 +242,7 @@ Same as "fl.isTrue" function, but the result is reversed. Usage is the same as w
 ### "fl.formatStringAsDNSSubdomain" function
 
 Format the string as a DNS subdomain name as defined in RFC 1123. Usually to be able to use the string
-as a name for some Kubernetes resources. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names
+as a name for some Kubernetes resources. If string is longer than 253 symbols, then truncate it and add a unique hash at the end of it. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names
 <br/>
 
 Arguments:
@@ -250,7 +254,7 @@ string: string to convert
 ### "fl.formatStringAsDNSLabel" function
 
 Format the string as a DNS label name as defined in RFC 1123. Usually to be able to use the string
-as a name for some Kubernetes resources. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names
+as a name for some Kubernetes resources. If string is longer than 63 symbols, then truncate it and add a unique hash at the end of it. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names
 <br/>
 
 Arguments:
@@ -280,6 +284,35 @@ Results in:
     app: testapp
     chart: chartname
     repo: gitlabrepogroup-repo
+```
+<br/>
+
+Arguments:
+```yaml
+list:
+  0: global scope
+  1: current relative scope
+  2: app name or some other unique identifier, used for generating unique labels
+```
+<br/>
+
+### "fl.generateSelectorLabels" template
+
+Automatically generate a minimal set of labels for selectors.
+<br/><br/>
+
+Usage:
+```yaml
+.helm/templates/test.yaml:
+—————————————————————————————————————
+kind: Deployment
+metadata:
+  labels: {{ include "fl.generateSelectorLabels" (list $ . "testapp") | nindent 4 }}
+```
+Results in:
+```yaml
+  labels:
+    app: testapp
 ```
 <br/>
 
@@ -512,4 +545,20 @@ list:
   0: global scope
   1: current relative scope
   2: map with resources (see Usage)
+```
+
+## Development
+
+### Tests
+
+Here we have a simple tests implementation, which only renders a simple template with a sample values.yaml file, and then checks whether the rendered result is as expected. It does not try to deploy the result in the cluster, unlike other Helm testing solutions. It consists of:
+* template for tests: [](templates/tests/render/test.yaml)
+* values.yaml for tests: [](tests/render/values.yaml)
+* result we expect to be rendered from these template and values files: [](tests/render/expected-render.yaml)
+
+Usage:
+```
+make -f .helm/charts/flant-lib/Makefile run-render-tests # run tests
+make -f .helm/charts/flant-lib/Makefile render-expected-output-for-render-tests # show what's rendered
+make -f .helm/charts/flant-lib/Makefile save-expected-output-for-render-tests # render and save the result to expected-render.yaml
 ```

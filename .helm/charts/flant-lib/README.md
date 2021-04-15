@@ -551,13 +551,13 @@ list:
 
 ### Tests
 
-Here we have a simple tests implementation, which only renders a simple template with a sample values.yaml file, and then checks whether the rendered result is as expected. It does not try to deploy the result in the cluster, unlike other Helm testing solutions. It consists of:
-* template for tests: [](templates/tests/render/test.yaml)
-* values.yaml for tests: [](tests/render/values.yaml)
-* result we expect to be rendered from these template and values files: [](tests/render/expected-render.yaml)
+There is a simple tests implementation, which only renders a simple template with a sample `values.yaml` file, and then checks whether the rendered result is as expected. It does not try to deploy the result in the cluster, unlike other Helm testing solutions. It consists of:
+* Helm template for tests: [templates/tests/render/test.yaml](templates/tests/render/test.yaml)
+* `values.yaml` file for tests: [tests/render/values.yaml](tests/render/values.yaml)
+* result we expect to be rendered from these template and `values.yaml` files: [tests/render/expected-render.yaml](tests/render/expected-render.yaml)
 
 Usage:
-```
+```bash
 make -f .helm/charts/flant-lib/Makefile run-render-tests # run tests
 make -f .helm/charts/flant-lib/Makefile render-expected-output-for-render-tests # show what's rendered
 make -f .helm/charts/flant-lib/Makefile save-expected-output-for-render-tests # render and save the result to expected-render.yaml

@@ -1,6 +1,6 @@
 # Flant Helm charts
 
-## Install chart from this repo
+## Install chart
 
 All the charts in this repo are available in our ChartMuseum located at https://charts.flant.com/common/github. \
 To be able to use them, you will need to add our ChartMuseum to the Helm's list of repositories:
@@ -26,7 +26,7 @@ dependencies:
   condition: loghouse.enabled
 ```
 
-## Add a new chart to this repo
+## Add new chart
 
 1. Place a chart in `.helm/charts/<new chart name>`
 2. Add a dependency for it:

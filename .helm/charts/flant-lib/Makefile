@@ -12,21 +12,21 @@ charts_to_disable := $(shell find .helm/charts -mindepth 1 -maxdepth 1 -type d -
 sets_charts_to_disable := $(shell for chart in $(charts_to_disable); do echo "$$chart" | awk '{printf(" --set %s.enabled=false", $$1)}'; done)
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: run-render-tests render-expected-output-for-render-tests save-expected-output-for-render-tests
+.PHONY: test render save-as-expected-render
 
-run-render-tests:
+test:
 	source <(multiwerf use $(WERF_VERSION)) && \
 	werf helm lint $(sets_charts_to_disable) && \
 	diff -u --color=always <(cat .helm/charts/flant-lib/tests/render/expected-render.yaml) <( \
 		werf helm render $(sets_charts_to_disable) | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]' \
 	)
 
-render-expected-output-for-render-tests:
+render:
 	source <(multiwerf use $(WERF_VERSION)) && \
 	werf helm lint $(sets_charts_to_disable) && \
 	werf helm render $(sets_charts_to_disable) | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]'
 
-save-expected-output-for-render-tests:
+update-expected-render:
 	source <(multiwerf use $(WERF_VERSION)) && \
 	werf helm lint $(sets_charts_to_disable) && \
 	werf helm render $(sets_charts_to_disable) | tail -n +6 | grep -vE '(^\#)|(werf.io/version)' | yq -sy --indentless 'sort_by(.apiVersion,.kind,.metadata.name)[]' > .helm/charts/flant-lib/tests/render/expected-render.yaml

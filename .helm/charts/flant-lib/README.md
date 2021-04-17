@@ -558,7 +558,7 @@ There is a simple tests implementation, which only renders a simple template wit
 
 Usage:
 ```bash
-make -f .helm/charts/flant-lib/Makefile run-render-tests # run tests
-make -f .helm/charts/flant-lib/Makefile render-expected-output-for-render-tests # show what's rendered
-make -f .helm/charts/flant-lib/Makefile save-expected-output-for-render-tests # render and save the result to expected-render.yaml
+make -f .helm/charts/flant-lib/Makefile test # run tests
+make -f .helm/charts/flant-lib/Makefile render # show what's rendered
+make -f .helm/charts/flant-lib/Makefile update-expected-render # render and save the result to expected-render.yaml
 ```

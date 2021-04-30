@@ -481,7 +481,7 @@ envs:
 —————————————————————————————————————
 .helm/templates/test.yaml:
 —————————————————————————————————————
-kind: ConfigMap
+kind: Secret
 data: {{ include "fl.generateConfigMapEnvVars" (list $ . .envs) | nindent 2 }}
 ```
 Results in:

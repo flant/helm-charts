@@ -38,4 +38,5 @@ dependencies:
       version: ~<major version only, minor/patch not required>
     ```
 
+
 Each new commit in master branch triggers automatic publishing to ChartMuseum at https://charts.flant.com/common/github.

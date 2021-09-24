@@ -3,9 +3,10 @@
   {{- $relativeScope := index . 1 }}
   {{- $imageConfig := index . 2 }}
 
+  {{- $imageName := include "fl.value" (list $ . $imageConfig.name) }}
   {{- if include "fl.isTrue" (list $ . $imageConfig.generateSignatureBasedTag) }}
-    {{- include "werf_container_image" (list $imageConfig.name $) | trimPrefix "image: " }}
+    {{- include "werf_container_image" (list $imageName $) | trimPrefix "image: " }}
   {{- else -}}
-    '{{ include "fl.value" (list $ . $imageConfig.name) }}:{{ include "fl.value" (list $ . $imageConfig.staticTag) }}'
+    '{{ $imageName }}:{{ include "fl.value" (list $ . $imageConfig.staticTag) }}'
   {{- end }}
 {{- end }}

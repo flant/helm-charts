@@ -535,8 +535,8 @@ Results in:
 ```yaml
   resources:
     requests:
-      cpu: 100
-      memory: 200
+      cpu: 100m
+      memory: 200Mi
       ephemeral-storage: 200Mi
 ```
 <br/>

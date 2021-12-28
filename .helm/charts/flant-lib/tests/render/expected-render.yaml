@@ -89,9 +89,11 @@ testResources:
     limits:
       cpu: 100m
       memory: 200Mi
+      ephemeral-storage: 200Mi
     requests:
       cpu: 100m
       memory: 200Mi
+      ephemeral-storage: 200Mi
   multiEnv:
     requests:
       cpu: 200m

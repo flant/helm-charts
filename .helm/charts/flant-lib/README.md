@@ -521,6 +521,7 @@ resources:
   requests:
     mcpu: 100
     memoryMb: 200
+    ephemeralStorageMb: 200
   limits:
     mcpu: null
 —————————————————————————————————————
@@ -536,6 +537,7 @@ Results in:
     requests:
       cpu: 100
       memory: 200
+      ephemeral-storage: 200Mi
 ```
 <br/>
 
@@ -558,6 +560,7 @@ There is a simple tests implementation, which only renders a simple template wit
 
 Usage:
 ```bash
+pip3 install yq
 make -f .helm/charts/flant-lib/Makefile test # run tests
 make -f .helm/charts/flant-lib/Makefile render # show what's rendered
 make -f .helm/charts/flant-lib/Makefile update-expected-render # render and save the result to expected-render.yaml

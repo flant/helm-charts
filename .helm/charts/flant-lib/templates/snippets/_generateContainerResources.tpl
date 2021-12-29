@@ -9,5 +9,7 @@
       {{- if $mcpu }}{{ cat "cpu:" $mcpu | nindent 2 }}{{ end }}
       {{- $memoryMb := include "fl.value" (list $ . $resourceGroupVals.memoryMb (dict "suffix" "Mi")) }}
       {{- if $memoryMb }}{{ cat "memory:" $memoryMb | nindent 2 }}{{ end }}
+      {{- $ephemeralStorageMb := include "fl.value" (list $ . $resourceGroupVals.ephemeralStorageMb (dict "suffix" "Mi")) }}
+      {{- if $ephemeralStorageMb }}{{ cat "ephemeral-storage:" $ephemeralStorageMb | nindent 2 }}{{ end }}
   {{- end }}
 {{- end }}

@@ -109,9 +109,11 @@ flant-lib:
       requests:
         mcpu: 100
         memoryMb: 200
+        ephemeralStorageMb: 200
       limits:
         mcpu: 100
         memoryMb: 200
+        ephemeralStorageMb: 200
     multiEnv:
       requests:
         mcpu:

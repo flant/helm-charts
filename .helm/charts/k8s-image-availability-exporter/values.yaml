@@ -1,10 +1,15 @@
 k8sImageAvailabilityExporter:
   image:
-    repository: flant/k8s-image-availability-exporter
-    tag: v0.1.13
-    pullPolicy: IfNotPresent
+    repository: registry.deckhouse.io/k8s-image-availability-exporter/k8s-image-availability-exporter
+    tag: v0.2.1
+    imagePullPolicy: IfNotPresent
   replicas: 1
   resources: {}
+  args:
+    - --bind-address=:8080
+  env: {}
+    # - name: key
+    #   value: value
 
 serviceMonitor:
   enabled: false
